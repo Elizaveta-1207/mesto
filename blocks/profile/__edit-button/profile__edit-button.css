@@ -15,3 +15,22 @@
 .profile__edit-button:hover {
   opacity: .6;
 }
+
+.profile__edit-button:focus {
+  outline: none;
+  opacity: .6;
+}
+
+@media screen and (max-width:767px) {
+  .profile__edit-button {
+    width: 21px;
+    height: 21px;
+  }
+}
+
+@media screen and (max-width:424px) {
+  .profile__edit-button {
+    width: 18px;
+    height: 18px;
+  }
+}

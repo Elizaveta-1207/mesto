@@ -9,3 +9,7 @@
   background-color: transparent;
   cursor: pointer;
 }
+
+.element__like:focus {
+  outline: none;
+}
