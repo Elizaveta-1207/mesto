@@ -22,7 +22,6 @@
 
 .profile__add-button:focus {
   outline: none;
-  opacity: .6;
 }
 
 @media screen and (max-width:767px) {

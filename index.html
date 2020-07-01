@@ -10,6 +10,17 @@
 
 <body>
   <div class="page">
+    <div class="popup">
+      <div class="popup__container">
+        <button class="popup__close-button"></button>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form class="popup__form">
+          <input type="text" placeholder="Введите имя" value="Жак-Ив Кусто" class="popup__text popup__name" />
+          <input type="text" placeholder="Введите описание" value="Исследователь океана" class="popup__text popup__description" />
+          <button class="popup__save-button">Сохранить</button>
+        </form>
+      </div>
+    </div>
     <header class="header">
       <img src="./images/header-logo.svg" alt="логотип" class="logo">
     </header>
@@ -75,6 +86,7 @@
       <p class="footer__copyright">&copy; 2020. Тимонина Елизавета</p>
     </footer>
   </div>
+  <script src="./script.js"></script>
 </body>
 
 </html>
