@@ -27,3 +27,11 @@
   border: 2px solid #3d85f7;
   border-radius: 2px;
 }
+
+
+@media screen and (max-height: 424px) {
+  .popup__text {
+    font-size: 12px;
+    height: 30px;
+  }
+}

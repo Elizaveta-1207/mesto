@@ -11,3 +11,21 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
+@media screen and (max-width:767px) {
+  .popup__container {
+    padding: 30px;
+  }
+}
+
+@media screen and (max-width:424px) {
+  .popup__container {
+    padding: 24px;
+  }
+}
+
+@media screen and (max-height: 424px) {
+  .popup__container {
+    height: 234px;
+  }
+}

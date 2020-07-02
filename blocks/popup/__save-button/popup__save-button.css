@@ -22,3 +22,17 @@
   outline: none;
   opacity: .8;
 }
+
+@media screen and (max-width:767px) {
+  .popup__save-button {
+    margin-top: 40px;
+  }
+}
+
+@media screen and (max-height:424px) {
+  .popup__save-button {
+    margin-top: 28px;
+    height: 32px;
+    font-size: 16px;
+  }
+}
