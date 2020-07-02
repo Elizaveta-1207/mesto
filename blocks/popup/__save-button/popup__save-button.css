@@ -11,16 +11,17 @@
   font-size: 18px;
   line-height: 1.2;
   text-align: center;
-  transition: opacity 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .popup__save-button:hover {
-  opacity: .8;
+  background-color: #000c;
+
 }
 
 .popup__save-button:focus {
   outline: none;
-  opacity: .8;
+  background-color: #000c;
 }
 
 @media screen and (max-width:767px) {
