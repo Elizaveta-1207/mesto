@@ -8,8 +8,6 @@
 @import url(./__name/popup__name.css);
 @import url(./__description/popup__description.css);
 
-/* @import url(./_opened/popup_opened.css); */
-
 .popup {
   position: fixed;
   width: 100%;
@@ -21,8 +19,4 @@
   box-sizing: border-box;
   padding: 0 50px;
   display: none;
-}
-
-.popup_opened {
-  display: flex;
 }
