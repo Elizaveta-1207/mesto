@@ -28,6 +28,9 @@
   border-radius: 2px;
 }
 
+.popup__text:last-of-type {
+  margin-bottom: 0;
+}
 
 @media screen and (max-height: 424px) {
   .popup__text {
