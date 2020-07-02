@@ -7,6 +7,7 @@ let formElement = popup.querySelector('.popup__form');
 function openPopup() {
   popup.classList.add('popup_opened');
 
+  //добавила код, который при открытии формы всегда содержит актульные данные со странички
   let nameInput = formElement.querySelector('.popup__name');
   let jobInput = formElement.querySelector('.popup__description');
 
