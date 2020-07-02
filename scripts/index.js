@@ -9,8 +9,8 @@ function openPopup() {
   popup.classList.add('popup_opened');
 
   //добавила код, который при открытии формы всегда содержит актульные данные со странички
-  let nameInput = formElement.querySelector('.popup__name');
-  let jobInput = formElement.querySelector('.popup__description');
+  let nameInput = formElement.querySelector('.popup__text_name');
+  let jobInput = formElement.querySelector('.popup__text_description');
 
   let profileName = main.querySelector('.profile__name');
   let profileJob = main.querySelector('.profile__description');
@@ -31,8 +31,8 @@ function formSubmitHandler(evt) {
   // О том, как это делать, расскажем позже.
 
   // Находим поля формы в DOM
-  let nameInput = formElement.querySelector('.popup__name'); // Воспользуйтесь инструментом .querySelector()
-  let jobInput = formElement.querySelector('.popup__description'); // Воспользуйтесь инструментом .querySelector()
+  let nameInput = formElement.querySelector('.popup__text_name'); // Воспользуйтесь инструментом .querySelector()
+  let jobInput = formElement.querySelector('.popup__text_description'); // Воспользуйтесь инструментом .querySelector()
 
   // Получите значение полей из свойства value
   let name = nameInput.value;

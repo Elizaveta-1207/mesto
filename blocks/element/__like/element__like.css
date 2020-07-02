@@ -8,8 +8,13 @@
   height: 18px;
   background-color: transparent;
   cursor: pointer;
+  transition: opacity .2s ease-in-out;
 }
 
 .element__like:focus {
   outline: none;
+}
+
+.element__like:hover {
+  opacity: .6;
 }
