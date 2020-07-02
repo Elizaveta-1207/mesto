@@ -1,8 +1,6 @@
 .element__img {
   width: 100%;
-  /* height: calc(282*100%/361); */
   object-fit: cover;
   object-position: 50% 10%;
-  border-radius: 10px 10px 0 0;
   max-height: 282px;
 }
