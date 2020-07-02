@@ -5,10 +5,18 @@
   font-weight: 900;
   font-size: 24px;
   line-height: 1.2;
+  margin-bottom: 36px;
+}
+
+@media screen and (max-width: 424px) {
+  .popup__title {
+    margin-bottom: 24px;
+  }
 }
 
 @media screen and (max-height: 424px) {
   .popup__title {
     font-size: 16px;
+    margin-bottom: 14px;
   }
 }
