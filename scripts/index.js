@@ -20,10 +20,12 @@ let profileJob = main.querySelector('.profile__description');
 //   popup.classList.remove('popup_opened');
 // }
 
-function showPopup() {
+function openClosePopup() {
   popup.classList.toggle('popup_opened');
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
+  if (popup.classList.contains('popup_opened')) {
+    nameInput.value = profileName.textContent;
+    jobInput.value = profileJob.textContent;
+  }
 }
 
 // Обработчик «отправки» формы, хотя пока
@@ -44,8 +46,8 @@ function formSubmitHandler(evt) {
   showPopup();
 }
 
-editButton.addEventListener('click', showPopup);
-closeButton.addEventListener('click', showPopup);
+editButton.addEventListener('click', openClosePopup);
+closeButton.addEventListener('click', openClosePopup);
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
