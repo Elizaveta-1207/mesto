@@ -3,6 +3,9 @@
 @import url(./__title/popup__title.css);
 @import url(./__text/popup__text.css);
 @import url(./__save-button/popup__save-button.css);
+@import url(./__img-container/popup__img-container.css);
+@import url(./__full-img/popup__full-img.css);
+@import url(./__title-img/popup__title-img.css);
 
 .popup {
   position: fixed;

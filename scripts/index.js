@@ -90,6 +90,7 @@ function openPopupAdd() {
   linkInput.value = '';
 }
 
+
 function closePopup() {
   popup.forEach(item => item.classList.remove("popup_opened"));
   // popup.classList.remove("popup_opened");
