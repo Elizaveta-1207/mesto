@@ -10,17 +10,6 @@
 
 <body>
   <div class="page">
-    <div class="popup">
-      <div class="popup__container">
-        <button aria-label="Закрыть редактирование профиля" type="button" class="popup__close-button"></button>
-        <h2 class="popup__title">Редактировать профиль</h2>
-        <form action="#" name="popup-form" class="popup__form">
-          <input required name="popup-name" type="text" placeholder="Введите имя" maxlength="40" class="popup__text popup__text_name" />
-          <input required name="popup-description" type="text" placeholder="Введите описание" maxlength="40" class="popup__text popup__text_description" />
-          <button type="submit" class="popup__save-button">Сохранить</button>
-        </form>
-      </div>
-    </div>
     <header class="header">
       <img src="./images/header-logo.svg" alt="логотип" class="logo" />
     </header>
@@ -84,6 +73,28 @@
     <footer class="footer">
       <p class="footer__copyright">&copy; 2020. Тимонина Елизавета</p>
     </footer>
+    <div class="popup popup-edit">
+      <div class="popup__container">
+        <button aria-label="Закрыть редактирование профиля" type="button" class="popup__close-button"></button>
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <form action="#" name="popup-form" class="popup__form popup-edit__form">
+          <input required name="popup-name" type="text" placeholder="Введите имя" maxlength="40" class="popup__text popup__text_name" />
+          <input required name="popup-description" type="text" placeholder="Введите описание" maxlength="40" class="popup__text popup__text_description" />
+          <button type="submit" class="popup__save-button">Сохранить</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup-add">
+      <div class="popup__container">
+        <button aria-label="Закрыть добавление нового места" type="button" class="popup__close-button"></button>
+        <h2 class="popup__title">Новое место</h2>
+        <form action="#" name="popup-form" class="popup__form popup-add__form">
+          <input required name="popup-name" type="text" placeholder="Название" maxlength="40" class="popup__text popup__text_name" />
+          <input required name="popup-description" type="text" placeholder="Ссылка на картинку" maxlength="40" class="popup__text popup__text_description" />
+          <button type="submit" class="popup__save-button">Создать</button>
+        </form>
+      </div>
+    </div>
   </div>
   <script src="./scripts/index.js"></script>
 </body>
