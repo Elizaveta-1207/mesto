@@ -18,9 +18,9 @@
   display: none;
 }
 
-@media screen and (max-width: 424px) {
+/* @media screen and (max-width: 424px) {
   .popup {
     padding-left: 18px;
     padding-right: 18px;
   }
-}
+} */
