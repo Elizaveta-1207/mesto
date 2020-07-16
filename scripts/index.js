@@ -3,29 +3,32 @@ const editButton = main.querySelector(".profile__edit-button");
 const addButton = main.querySelector(".profile__add-button");
 
 // создала массив из popup-элементов
-const popup = Array.from(document.querySelectorAll(".popup"));
+const popups = Array.from(document.querySelectorAll(".popup"));
 const editPopup = document.querySelector(".popup-edit");
 const addPopup = document.querySelector(".popup-add");
 const imgPopup = document.querySelector(".popup-img");
 
 // создала массив из кнопок закрытия для всех popup-элементов
-const closeButton = popup.map((item) => item.querySelector(".popup__close-button"));
+const closeButtons = popups.map((item) => item.querySelector(".popup__close-button"));
 // нашла форму редактирования профиля из всего массива popup
-const editFormElement = popup.find((item) => item.querySelector(".popup-edit__form"));
+const editFormElement = popups.find((item) => item.querySelector(".popup-edit__form"));
 // нашла форму добавления карточки из всего массива popup
-const addFormElement = popup.find((item) => item.querySelector(".popup-add__form"));
+const addFormElement = popups.find((item) => item.querySelector(".popup-add__form"));
 
 // нашла все input из форм
-let nameInput = editFormElement.querySelector(".popup__text_name");
-let jobInput = editFormElement.querySelector(".popup__text_description");
-let titleInput = addFormElement.querySelector(".popup__text_title");
-let linkInput = addFormElement.querySelector(".popup__text_link");
+const nameInput = editFormElement.querySelector(".popup__text_name");
+const jobInput = editFormElement.querySelector(".popup__text_description");
+const titleInput = addFormElement.querySelector(".popup__text_title");
+const linkInput = addFormElement.querySelector(".popup__text_link");
 
-let profileName = main.querySelector(".profile__name");
-let profileJob = main.querySelector(".profile__description");
+const profileName = main.querySelector(".profile__name");
+const profileJob = main.querySelector(".profile__description");
 
 // нашла блок в html, куда далее будут вставляться все карточки с местами
 const elementsList = document.querySelector(".elements__list");
+
+// нашла шаблон
+const elementTemplate = document.querySelector("#element-template").content;
 
 const initialCards = [{
     name: "Архыз",
@@ -55,8 +58,7 @@ const initialCards = [{
 
 // функция добавления карточки на страницу
 function addElement(titleValue, imgValue) {
-  // нашла шаблон и склонировала его
-  const elementTemplate = document.querySelector("#element-template").content;
+  //склонировала шаблон
   const cardElement = elementTemplate.cloneNode(true);
 
   // в склонированном элементе карточки нашла картинку и заголовок
@@ -64,23 +66,31 @@ function addElement(titleValue, imgValue) {
   cardElement.querySelector(".element__title").textContent = titleValue;
 
   // обработчик события для нажатия лайка
-  cardElement.querySelector(".element__like").addEventListener("click", function (evt) {
-    evt.target.classList.toggle("element__like_active");
-  });
+  cardElement
+    .querySelector(".element__like")
+    .addEventListener("click", function (evt) {
+      evt.target.classList.toggle("element__like_active");
+    });
 
   // обработчик события для удаления карточки
-  cardElement.querySelector(".element__delete").addEventListener("click", function (evt) {
-    evt.target.closest(".element").remove();
-  });
+  cardElement
+    .querySelector(".element__delete")
+    .addEventListener("click", function (evt) {
+      evt.target.closest(".element").remove();
+    });
 
   // обработчик события для открытия картинки в полном размере
-  cardElement.querySelector(".element__img").addEventListener('click', openPopupImg);
+  cardElement
+    .querySelector(".element__img")
+    .addEventListener("click", openPopupImg);
 
   return cardElement;
 }
 
 // добавляем все карточки из объявленного массива
-initialCards.forEach(item => elementsList.append(addElement(item.name, item.link)));
+initialCards.forEach((item) =>
+  elementsList.append(addElement(item.name, item.link))
+);
 
 // функция открытия popup редактирования профиля
 function openPopupEdit() {
@@ -101,11 +111,11 @@ function openPopupAdd() {
 // функция открытия popup картинки в большом размере
 function openPopupImg(img) {
   // img - это event, который передался функции. Нахожу ближайший элемент (карточку) с нужным классом
-  element = img.target.closest('.element');
+  const element = img.target.closest(".element");
 
   // в полученной карточке нахожу ссылку на картинку и название
-  cardImg = element.querySelector(".element__img").src;
-  cardTitle = element.querySelector(".element__title").textContent;
+  const cardImg = element.querySelector(".element__img").src;
+  const cardTitle = element.querySelector(".element__title").textContent;
 
   // popup-элементу открытия картинки, в соответсвующие теги, присваиваю полученные значения:
   // ссылку на картинку и название
@@ -117,7 +127,7 @@ function openPopupImg(img) {
 
 // функция закрытия popup для всех popup-элементов
 function closePopup() {
-  popup.forEach((item) => item.classList.remove("popup_opened"));
+  popups.forEach((item) => item.classList.remove("popup_opened"));
 }
 
 // function openClosePopupEdit() {
@@ -133,8 +143,8 @@ function formSubmitHandler(evt) {
   // отмена стандартной отправки формы
   evt.preventDefault();
 
-  let name = nameInput.value;
-  let job = jobInput.value;
+  const name = nameInput.value;
+  const job = jobInput.value;
 
   profileName.textContent = name;
   profileJob.textContent = job;
@@ -148,8 +158,8 @@ function addFormSubmitHandler(evt) {
   // отмена стандартной отправки формы
   evt.preventDefault();
 
-  let title = titleInput.value;
-  let link = linkInput.value;
+  const title = titleInput.value;
+  const link = linkInput.value;
 
   elementsList.prepend(addElement(title, link));
 
@@ -160,7 +170,7 @@ function addFormSubmitHandler(evt) {
 editButton.addEventListener("click", openPopupEdit);
 addButton.addEventListener("click", openPopupAdd);
 
-closeButton.forEach((item) => item.addEventListener("click", closePopup));
+closeButtons.forEach((item) => item.addEventListener("click", closePopup));
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
