@@ -6,16 +6,16 @@ const addButton = main.querySelector(".profile__add-button");
 const popup = Array.from(document.querySelectorAll(".popup"));
 const editPopup = document.querySelector(".popup-edit");
 const addPopup = document.querySelector(".popup-add");
+const imgPopup = document.querySelector(".popup-img");
 
 // let closeButton = popup.querySelector(".popup__close-button");
-const closeButton = popup.map(item => item.querySelector(".popup__close-button"));
-
+const closeButton = popup.map((item) => item.querySelector(".popup__close-button"));
 
 // let editFormElement = document.querySelector(".popup-edit__form");
-const editFormElement = popup.find(item => item.querySelector(".popup-edit__form"));
+const editFormElement = popup.find((item) => item.querySelector(".popup-edit__form"));
 // let editFormElement = popup.forEach(item => item.querySelector(".popup-edit__form"));
 // let editFormElement = popup.map(item => item.querySelector(".popup-edit__form"));
-const addFormElement = popup.find(item => item.querySelector(".popup-add__form"));
+const addFormElement = popup.find((item) => item.querySelector(".popup-add__form"));
 
 let nameInput = editFormElement.querySelector(".popup__text_name");
 let jobInput = editFormElement.querySelector(".popup__text_description");
@@ -28,46 +28,53 @@ let profileJob = main.querySelector(".profile__description");
 const elementsList = document.querySelector(".elements__list");
 
 const initialCards = [{
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    name: "Архыз",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
   },
   {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    name: "Челябинская область",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
   },
   {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    name: "Иваново",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
   },
   {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    name: "Камчатка",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
   },
   {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    name: "Холмогорский район",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
   },
   {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
+    name: "Байкал",
+    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
+  },
 ];
-
-
+// titleValue
 function addElement(titleValue, imgValue) {
-  const elementTemplate = document.querySelector('#element-template').content;
+  const elementTemplate = document.querySelector("#element-template").content;
   const cardElement = elementTemplate.cloneNode(true);
-  cardElement.querySelector('.element__img').src = imgValue;
-  cardElement.querySelector('.element__title').textContent = titleValue;
-
-  cardElement.querySelector('.element__like').addEventListener('click', function (evt) {
-    evt.target.classList.toggle('element__like_active');
+  cardElement.querySelector(".element__img").src = imgValue;
+  cardElement.querySelector(".element__title").textContent = titleValue;
+  // console.log(123);
+  cardElement.querySelector(".element__like").addEventListener("click", function (evt) {
+    evt.target.classList.toggle("element__like_active");
+    // console.log(evt.target);
   });
 
-  cardElement.querySelector('.element__delete').addEventListener('click', function (evt) {
+  cardElement.querySelector(".element__delete").addEventListener("click", function (evt) {
     evt.target.closest(".element").remove();
   });
 
+  // console.log("обработчик цепляем к картинки из контента");
+  // console.log(cardElement.querySelector(".element__img"));
+
+  // cardElement.querySelector(".element__title").addEventListener('click', openPopupImg);
+  cardElement.querySelector(".element__img").addEventListener('click', openPopupImg);
+
+  // console.log('123');
   return cardElement;
   // elementsList.prepend(cardElement);
 }
@@ -78,21 +85,35 @@ initialCards.forEach(function (item) {
 });
 
 function openPopupEdit() {
-  editPopup.classList.add('popup_opened');
+  editPopup.classList.add("popup_opened");
   //добавила код, который при открытии формы всегда содержит актульные данные со странички
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 }
 
 function openPopupAdd() {
-  addPopup.classList.add('popup_opened');
-  titleInput.value = '';
-  linkInput.value = '';
+  addPopup.classList.add("popup_opened");
+  titleInput.value = "";
+  linkInput.value = "";
 }
 
+function openPopupImg(img) {
+  element = img.target.closest('.element');
+  // console.log(element);
+
+  cardImg = element.querySelector(".element__img").src;
+  cardTitle = element.querySelector(".element__title").textContent;
+  // console.log(cardImg);
+  // console.log(cardTitle);
+
+  imgPopup.querySelector(".popup__full-img").src = cardImg;
+  imgPopup.querySelector(".popup__title-img").textContent = cardTitle;
+
+  imgPopup.classList.add("popup_opened");
+}
 
 function closePopup() {
-  popup.forEach(item => item.classList.remove("popup_opened"));
+  popup.forEach((item) => item.classList.remove("popup_opened"));
   // popup.classList.remove("popup_opened");
 }
 
@@ -150,7 +171,7 @@ function addFormSubmitHandler(evt) {
 editButton.addEventListener("click", openPopupEdit);
 addButton.addEventListener("click", openPopupAdd);
 
-closeButton.forEach(item => item.addEventListener("click", closePopup));
+closeButton.forEach((item) => item.addEventListener("click", closePopup));
 // closeButton.addEventListener("click", closePopup);
 
 // Прикрепляем обработчик к форме:

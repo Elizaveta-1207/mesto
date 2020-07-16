@@ -3,4 +3,6 @@
   object-fit: cover;
   object-position: 50% 10%;
   height: 282px;
+  filter: brightness(90%);
+  z-index: 0;
 }

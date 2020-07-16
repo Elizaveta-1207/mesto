@@ -18,7 +18,12 @@
   justify-content: center;
   box-sizing: border-box;
   padding: 0 50px;
-  display: none;
+  display: flex;
+  /* display: none; */
+  z-index: 2;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s ease, opacity 0.3s ease-in-out;
 }
 
 /* @media screen and (max-width: 424px) {
