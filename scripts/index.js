@@ -2,21 +2,20 @@ const main = document.querySelector(".main");
 const editButton = main.querySelector(".profile__edit-button");
 const addButton = main.querySelector(".profile__add-button");
 
-// let popup = document.querySelector(".popup");
+// создала массив из popup-элементов
 const popup = Array.from(document.querySelectorAll(".popup"));
 const editPopup = document.querySelector(".popup-edit");
 const addPopup = document.querySelector(".popup-add");
 const imgPopup = document.querySelector(".popup-img");
 
-// let closeButton = popup.querySelector(".popup__close-button");
+// создала массив из кнопок закрытия для всех popup-элементов
 const closeButton = popup.map((item) => item.querySelector(".popup__close-button"));
-
-// let editFormElement = document.querySelector(".popup-edit__form");
+// нашла форму редактирования профиля из всего массива popup
 const editFormElement = popup.find((item) => item.querySelector(".popup-edit__form"));
-// let editFormElement = popup.forEach(item => item.querySelector(".popup-edit__form"));
-// let editFormElement = popup.map(item => item.querySelector(".popup-edit__form"));
+// нашла форму добавления карточки из всего массива popup
 const addFormElement = popup.find((item) => item.querySelector(".popup-add__form"));
 
+// нашла все input из форм
 let nameInput = editFormElement.querySelector(".popup__text_name");
 let jobInput = editFormElement.querySelector(".popup__text_description");
 let titleInput = addFormElement.querySelector(".popup__text_title");
@@ -25,6 +24,7 @@ let linkInput = addFormElement.querySelector(".popup__text_link");
 let profileName = main.querySelector(".profile__name");
 let profileJob = main.querySelector(".profile__description");
 
+// нашла блок в html, куда далее будут вставляться все карточки с местами
 const elementsList = document.querySelector(".elements__list");
 
 const initialCards = [{
@@ -52,78 +52,73 @@ const initialCards = [{
     link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
   },
 ];
-// titleValue
+
+// функция добавления карточки на страницу
 function addElement(titleValue, imgValue) {
+  // нашла шаблон и склонировала его
   const elementTemplate = document.querySelector("#element-template").content;
   const cardElement = elementTemplate.cloneNode(true);
+
+  // в склонированном элементе карточки нашла картинку и заголовок
   cardElement.querySelector(".element__img").src = imgValue;
   cardElement.querySelector(".element__title").textContent = titleValue;
-  // console.log(123);
+
+  // обработчик события для нажатия лайка
   cardElement.querySelector(".element__like").addEventListener("click", function (evt) {
     evt.target.classList.toggle("element__like_active");
-    // console.log(evt.target);
   });
 
+  // обработчик события для удаления карточки
   cardElement.querySelector(".element__delete").addEventListener("click", function (evt) {
     evt.target.closest(".element").remove();
   });
 
-  // console.log("обработчик цепляем к картинки из контента");
-  // console.log(cardElement.querySelector(".element__img"));
-
-  // cardElement.querySelector(".element__title").addEventListener('click', openPopupImg);
+  // обработчик события для открытия картинки в полном размере
   cardElement.querySelector(".element__img").addEventListener('click', openPopupImg);
 
-  // console.log('123');
   return cardElement;
-  // elementsList.prepend(cardElement);
 }
 
-initialCards.forEach(function (item) {
-  // addElement(item.name, item.link);
-  elementsList.append(addElement(item.name, item.link));
-});
+// добавляем все карточки из объявленного массива
+initialCards.forEach(item => elementsList.append(addElement(item.name, item.link)));
 
+// функция открытия popup редактирования профиля
 function openPopupEdit() {
   editPopup.classList.add("popup_opened");
-  //добавила код, который при открытии формы всегда содержит актульные данные со странички
+  //при открытии формы всегда содержит актульные данные со странички (имя и инфу)
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 }
 
+// функция открытия popup добавления карточки
 function openPopupAdd() {
   addPopup.classList.add("popup_opened");
+  // открытии формы всегда содержит пустые поля ввода
   titleInput.value = "";
   linkInput.value = "";
 }
 
+// функция открытия popup картинки в большом размере
 function openPopupImg(img) {
+  // img - это event, который передался функции. Нахожу ближайший элемент (карточку) с нужным классом
   element = img.target.closest('.element');
-  // console.log(element);
 
+  // в полученной карточке нахожу ссылку на картинку и название
   cardImg = element.querySelector(".element__img").src;
   cardTitle = element.querySelector(".element__title").textContent;
-  // console.log(cardImg);
-  // console.log(cardTitle);
 
+  // popup-элементу открытия картинки, в соответсвующие теги, присваиваю полученные значения:
+  // ссылку на картинку и название
   imgPopup.querySelector(".popup__full-img").src = cardImg;
   imgPopup.querySelector(".popup__title-img").textContent = cardTitle;
 
   imgPopup.classList.add("popup_opened");
 }
 
+// функция закрытия popup для всех popup-элементов
 function closePopup() {
   popup.forEach((item) => item.classList.remove("popup_opened"));
-  // popup.classList.remove("popup_opened");
 }
-
-// function openClosePopup() {
-//   popup.classList.toggle("popup_opened");
-//   if (popup.classList.contains("popup_opened")) {
-//     nameInput.value = profileName.textContent;
-//     jobInput.value = profileJob.textContent;
-//   }
-// }
 
 // function openClosePopupEdit() {
 //   editPopup.classList.toggle("popup_opened");
@@ -133,18 +128,14 @@ function closePopup() {
 //   }
 // }
 
-// Обработчик «отправки» формы, хотя пока
-// она никуда отправляться не будет
+// функция отправки формы профиля
 function formSubmitHandler(evt) {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  // Так мы можем определить свою логику отправки.
-  // О том, как это делать, расскажем позже.
+  // отмена стандартной отправки формы
+  evt.preventDefault();
 
-  // Получите значение полей из свойства value
   let name = nameInput.value;
   let job = jobInput.value;
 
-  // Вставьте новые значения с помощью textContent
   profileName.textContent = name;
   profileJob.textContent = job;
 
@@ -152,16 +143,14 @@ function formSubmitHandler(evt) {
   closePopup();
 }
 
+// функция отправки формы добавления карточки
 function addFormSubmitHandler(evt) {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  // Так мы можем определить свою логику отправки.
-  // О том, как это делать, расскажем позже.
+  // отмена стандартной отправки формы
+  evt.preventDefault();
 
-  // Получите значение полей из свойства value
   let title = titleInput.value;
   let link = linkInput.value;
 
-  // addElement(title, link);
   elementsList.prepend(addElement(title, link));
 
   // openClosePopupEdit();
@@ -172,7 +161,6 @@ editButton.addEventListener("click", openPopupEdit);
 addButton.addEventListener("click", openPopupAdd);
 
 closeButton.forEach((item) => item.addEventListener("click", closePopup));
-// closeButton.addEventListener("click", closePopup);
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
