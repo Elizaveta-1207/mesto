@@ -95,8 +95,8 @@ initialCards.forEach((item) =>
 // функция открытия popup редактирования профиля
 function openPopupEdit() {
   // очищаю ошибки перед открытием popup
-  hideInputError(editFormElement, nameInput);
-  hideInputError(editFormElement, jobInput);
+  hideInputError(editFormElement, nameInput, validationParams);
+  hideInputError(editFormElement, jobInput, validationParams);
 
   editPopup.classList.add("popup_opened");
   // при открытии формы всегда содержит актульные данные со странички (имя и инфу)
@@ -110,8 +110,8 @@ function openPopupEdit() {
 // функция открытия popup добавления карточки
 function openPopupAdd() {
   //очищаю ошибки перед открытием popup
-  hideInputError(addFormElement, titleInput);
-  hideInputError(addFormElement, linkInput);
+  hideInputError(addFormElement, titleInput, validationParams);
+  hideInputError(addFormElement, linkInput, validationParams);
 
   addPopup.classList.add("popup_opened");
   // открытии формы всегда содержит пустые поля ввода
