@@ -9,17 +9,23 @@ const addPopup = document.querySelector(".popup-add");
 const imgPopup = document.querySelector(".popup-img");
 
 // создала массив из кнопок закрытия для всех popup-элементов
-const closeButtons = popups.map((item) => item.querySelector(".popup__close-button"));
+const closeButtons = popups.map((item) =>
+  item.querySelector(".popup__close-button")
+);
 // нашла форму редактирования профиля из всего массива popup
-const editFormElement = popups.find((item) => item.querySelector(".popup-edit__form"));
+const editFormElement = popups.find((item) =>
+  item.querySelector(".popup-edit__form")
+);
 // нашла форму добавления карточки из всего массива popup
-const addFormElement = popups.find((item) => item.querySelector(".popup-add__form"));
+const addFormElement = popups.find((item) =>
+  item.querySelector(".popup-add__form")
+);
 
 // нашла все input из форм
-const nameInput = editFormElement.querySelector(".popup__text_name");
-const jobInput = editFormElement.querySelector(".popup__text_description");
-const titleInput = addFormElement.querySelector(".popup__text_title");
-const linkInput = addFormElement.querySelector(".popup__text_link");
+const nameInput = editFormElement.querySelector(".popup__input_name");
+const jobInput = editFormElement.querySelector(".popup__input_description");
+const titleInput = addFormElement.querySelector(".popup__input_title");
+const linkInput = addFormElement.querySelector(".popup__input_link");
 
 const profileName = main.querySelector(".profile__name");
 const profileJob = main.querySelector(".profile__description");
@@ -66,23 +72,17 @@ function addElement(titleValue, imgValue) {
   cardElement.querySelector(".element__title").textContent = titleValue;
 
   // обработчик события для нажатия лайка
-  cardElement
-    .querySelector(".element__like")
-    .addEventListener("click", function (evt) {
-      evt.target.classList.toggle("element__like_active");
-    });
+  cardElement.querySelector(".element__like").addEventListener("click", function (evt) {
+    evt.target.classList.toggle("element__like_active");
+  });
 
   // обработчик события для удаления карточки
-  cardElement
-    .querySelector(".element__delete")
-    .addEventListener("click", function (evt) {
-      evt.target.closest(".element").remove();
-    });
+  cardElement.querySelector(".element__delete").addEventListener("click", function (evt) {
+    evt.target.closest(".element").remove();
+  });
 
   // обработчик события для открытия картинки в полном размере
-  cardElement
-    .querySelector(".element__img")
-    .addEventListener("click", openPopupImg);
+  cardElement.querySelector(".element__img").addEventListener("click", openPopupImg);
 
   return cardElement;
 }
