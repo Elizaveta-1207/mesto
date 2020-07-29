@@ -94,14 +94,22 @@ initialCards.forEach((item) =>
 
 // функция открытия popup редактирования профиля
 function openPopupEdit() {
+  // очищаю ошибки перед открытием popup
+  hideInputError(editFormElement, nameInput);
+  hideInputError(editFormElement, jobInput);
+
   editPopup.classList.add("popup_opened");
-  //при открытии формы всегда содержит актульные данные со странички (имя и инфу)
+  // при открытии формы всегда содержит актульные данные со странички (имя и инфу)
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 }
 
 // функция открытия popup добавления карточки
 function openPopupAdd() {
+  //очищаю ошибки перед открытием popup
+  hideInputError(addFormElement, titleInput);
+  hideInputError(addFormElement, linkInput);
+
   addPopup.classList.add("popup_opened");
   // открытии формы всегда содержит пустые поля ввода
   titleInput.value = "";
@@ -167,10 +175,25 @@ function addFormSubmitHandler(evt) {
   closePopup();
 }
 
+
 editButton.addEventListener("click", openPopupEdit);
 addButton.addEventListener("click", openPopupAdd);
 
 closeButtons.forEach((item) => item.addEventListener("click", closePopup));
+
+// закрытие popup нажатием мышки вне контейнера с формой
+popups.forEach((item) => item.addEventListener("click", (evt) => {
+  if (evt.target.classList.contains('popup')) {
+    closePopup();
+  }
+}));
+// закрытие popup нажатием на Escape
+document.addEventListener('keydown', (evt) => {
+  if (evt.key === "Escape") {
+    closePopup();
+  }
+});
+
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»

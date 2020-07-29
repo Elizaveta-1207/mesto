@@ -56,6 +56,7 @@ const toggleButtonState = (inputList, buttonElement) => {
     buttonElement.disabled = true;
   } else {
     buttonElement.classList.remove('popup__button_disabled');
+    buttonElement.disabled = false;
   }
 }
 
