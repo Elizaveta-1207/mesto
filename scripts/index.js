@@ -102,6 +102,9 @@ function openPopupEdit() {
   // при открытии формы всегда содержит актульные данные со странички (имя и инфу)
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
+
+  // закрытие popup нажатием на Escape
+  document.addEventListener('keydown', keyHandler);
 }
 
 // функция открытия popup добавления карточки
@@ -114,6 +117,7 @@ function openPopupAdd() {
   // открытии формы всегда содержит пустые поля ввода
   titleInput.value = "";
   linkInput.value = "";
+  document.addEventListener('keydown', keyHandler);
 }
 
 // функция открытия popup картинки в большом размере
@@ -131,6 +135,7 @@ function openPopupImg(img) {
   imgPopup.querySelector(".popup__title-img").textContent = cardTitle;
 
   imgPopup.classList.add("popup_opened");
+  document.addEventListener('keydown', keyHandler);
 }
 
 // функция закрытия popup для всех popup-элементов
@@ -175,6 +180,13 @@ function addFormSubmitHandler(evt) {
   closePopup();
 }
 
+// функция для закрытия модального окна с помощью esc
+function keyHandler(evt) {
+  if (evt.key === "Escape") {
+    closePopup();
+  }
+}
+
 
 editButton.addEventListener("click", openPopupEdit);
 addButton.addEventListener("click", openPopupAdd);
@@ -187,12 +199,6 @@ popups.forEach((item) => item.addEventListener("click", (evt) => {
     closePopup();
   }
 }));
-// закрытие popup нажатием на Escape
-document.addEventListener('keydown', (evt) => {
-  if (evt.key === "Escape") {
-    closePopup();
-  }
-});
 
 
 // Прикрепляем обработчик к форме:
