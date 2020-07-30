@@ -93,9 +93,6 @@ initialCards.forEach((item) =>
 );
 
 // функция открытия popup редактирования профиля
-
-
-
 function openPopupEdit() {
   // делаю кнопку сохранить неактивной при открытии окна с редактированием
   const editSaveButton = editFormElement.querySelector('.popup__button');
@@ -106,15 +103,11 @@ function openPopupEdit() {
   hideInputError(editFormElement, nameInput, validationParams);
   hideInputError(editFormElement, jobInput, validationParams);
 
-  editPopup.classList.add("popup_opened");
   // при открытии формы всегда содержит актульные данные со странички (имя и инфу)
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
 
-  // закрытие popup нажатием на Escape
-  document.addEventListener('keydown', keyHandler);
-
-
+  openPopup(editPopup);
 
 }
 
@@ -129,11 +122,11 @@ function openPopupAdd() {
   hideInputError(addFormElement, titleInput, validationParams);
   hideInputError(addFormElement, linkInput, validationParams);
 
-  addPopup.classList.add("popup_opened");
   // открытии формы всегда содержит пустые поля ввода
   titleInput.value = "";
   linkInput.value = "";
-  document.addEventListener('keydown', keyHandler);
+
+  openPopup(addPopup);
 }
 
 // функция открытия popup картинки в большом размере
@@ -150,9 +143,16 @@ function openPopupImg(img) {
   imgPopup.querySelector(".popup__full-img").src = cardImg;
   imgPopup.querySelector(".popup__title-img").textContent = cardTitle;
 
-  imgPopup.classList.add("popup_opened");
+  openPopup(imgPopup);
+}
+
+// функция открытия popup для всех popup-элементов
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+  // закрытие popup нажатием на Escape
   document.addEventListener('keydown', keyHandler);
 }
+
 
 // функция закрытия popup для всех popup-элементов
 function closePopup(popup) {
