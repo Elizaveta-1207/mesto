@@ -93,7 +93,15 @@ initialCards.forEach((item) =>
 );
 
 // функция открытия popup редактирования профиля
+
+
+
 function openPopupEdit() {
+  // делаю кнопку сохранить неактивной при открытии окна с редактированием
+  const editSaveButton = editFormElement.querySelector('.popup__button');
+  editSaveButton.classList.add('popup__button_disabled');
+  editSaveButton.disabled = true;
+
   // очищаю ошибки перед открытием popup
   hideInputError(editFormElement, nameInput, validationParams);
   hideInputError(editFormElement, jobInput, validationParams);
@@ -105,11 +113,19 @@ function openPopupEdit() {
 
   // закрытие popup нажатием на Escape
   document.addEventListener('keydown', keyHandler);
+
+
+
 }
 
 // функция открытия popup добавления карточки
 function openPopupAdd() {
-  //очищаю ошибки перед открытием popup
+  // делаю кнопку сохранить неактивной при открытии окна с добавлением карточки
+  const addSaveButton = addFormElement.querySelector('.popup__button');
+  addSaveButton.classList.add('popup__button_disabled');
+  addSaveButton.disabled = true;
+
+  // очищаю ошибки перед открытием popup
   hideInputError(addFormElement, titleInput, validationParams);
   hideInputError(addFormElement, linkInput, validationParams);
 
@@ -139,8 +155,10 @@ function openPopupImg(img) {
 }
 
 // функция закрытия popup для всех popup-элементов
-function closePopup() {
-  popups.forEach((item) => item.classList.remove("popup_opened"));
+function closePopup(popup) {
+  // popups.forEach((item) => item.classList.remove("popup_opened"));
+  popup.classList.remove("popup_opened");
+  document.removeEventListener('keydown', keyHandler);
 }
 
 // function openClosePopupEdit() {
@@ -156,6 +174,8 @@ function formSubmitHandler(evt) {
   // отмена стандартной отправки формы
   evt.preventDefault();
 
+  const popupOpened = document.querySelector('.popup_opened');
+
   const name = nameInput.value;
   const job = jobInput.value;
 
@@ -163,7 +183,7 @@ function formSubmitHandler(evt) {
   profileJob.textContent = job;
 
   // openClosePopupEdit();
-  closePopup();
+  closePopup(popupOpened);
 }
 
 // функция отправки формы добавления карточки
@@ -171,19 +191,22 @@ function addFormSubmitHandler(evt) {
   // отмена стандартной отправки формы
   evt.preventDefault();
 
+  const popupOpened = document.querySelector('.popup_opened');
+
   const title = titleInput.value;
   const link = linkInput.value;
 
   elementsList.prepend(addElement(title, link));
 
   // openClosePopupEdit();
-  closePopup();
+  closePopup(popupOpened);
 }
 
 // функция для закрытия модального окна с помощью esc
 function keyHandler(evt) {
+  const popupOpened = document.querySelector('.popup_opened');
   if (evt.key === "Escape") {
-    closePopup();
+    closePopup(popupOpened);
   }
 }
 
@@ -191,12 +214,12 @@ function keyHandler(evt) {
 editButton.addEventListener("click", openPopupEdit);
 addButton.addEventListener("click", openPopupAdd);
 
-closeButtons.forEach((item) => item.addEventListener("click", closePopup));
+closeButtons.forEach((item) => item.addEventListener("click", () => closePopup(item.closest('.popup'))));
 
 // закрытие popup нажатием мышки вне контейнера с формой
 popups.forEach((item) => item.addEventListener("click", (evt) => {
   if (evt.target.classList.contains('popup')) {
-    closePopup();
+    closePopup(item);
   }
 }));
 
