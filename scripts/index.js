@@ -147,6 +147,13 @@ initialCards.forEach((item) => {
 //   elementsList.append(addElement(item.name, item.link))
 // );
 
+const hideErrors = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  inputElement.classList.remove('popup__input_type_error');
+  errorElement.classList.remove('popup__error_visible');
+  errorElement.textContent = '';
+};
+
 // функция открытия popup редактирования профиля
 function openPopupEdit() {
   // делаю кнопку сохранить неактивной при открытии окна с редактированием
@@ -155,8 +162,8 @@ function openPopupEdit() {
   editSaveButton.disabled = true;
 
   // очищаю ошибки перед открытием popup
-  hideInputError(editFormElement, nameInput, validationParams);
-  hideInputError(editFormElement, jobInput, validationParams);
+  hideErrors(editFormElement, nameInput);
+  hideErrors(editFormElement, jobInput);
 
   // при открытии формы всегда содержит актульные данные со странички (имя и инфу)
   nameInput.value = profileName.textContent;
@@ -174,8 +181,8 @@ function openPopupAdd() {
   addSaveButton.disabled = true;
 
   // очищаю ошибки перед открытием popup
-  hideInputError(addFormElement, titleInput, validationParams);
-  hideInputError(addFormElement, linkInput, validationParams);
+  hideErrors(addFormElement, titleInput);
+  hideErrors(addFormElement, linkInput);
 
   // открытии формы всегда содержит пустые поля ввода
   titleInput.value = "";
