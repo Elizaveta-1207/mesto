@@ -30,7 +30,7 @@ export class FormValidator {
     });
   }
 
-  _toggleButtonState = (inputList, buttonElement) => {
+  _toggleButtonState(inputList, buttonElement) {
     if (this._hasInvalidInput(inputList)) {
       buttonElement.classList.add(this._inactiveButtonClass);
       buttonElement.disabled = true;
@@ -40,7 +40,7 @@ export class FormValidator {
     }
   }
 
-  _hasInvalidInput = (inputList) => {
+  _hasInvalidInput(inputList) {
     return inputList.some((inputElements) => {
       return !inputElements.validity.valid;
     })
@@ -61,7 +61,7 @@ export class FormValidator {
     errorElement.textContent = '';
   }
 
-  _showInputError = (formElement, inputElement, errorMessage) => {
+  _showInputError(formElement, inputElement, errorMessage) {
     const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
     inputElement.classList.add(this._inputErrorClass);
     errorElement.textContent = errorMessage;

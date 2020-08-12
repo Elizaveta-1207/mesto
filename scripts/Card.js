@@ -11,6 +11,7 @@ export class Card {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
+    this._openPopupImg = this._openPopupImg.bind(this);
   }
 
   _getTemplate() {
@@ -37,9 +38,10 @@ export class Card {
 
   _setEventListeners() {
     // обработчик события для открытия картинки в полном размере
-    this._element.querySelector(".element__img").addEventListener('click', () => {
-      this._openPopupImg();
-    });
+    // this._element.querySelector(".element__img").addEventListener('click', () => {
+    //   this._openPopupImg();
+    // });
+    this._element.querySelector(".element__img").addEventListener('click', this._openPopupImg);
 
     // обработчик события для удаления карточки
     this._element.querySelector(".element__delete").addEventListener("click", function (evt) {
