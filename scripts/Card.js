@@ -11,6 +11,7 @@ export class Card {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
+    // чтобы корректно отображалось на айфоне, т.к. нельзя применять стрелочные функции в Safari
     this._openPopupImg = this._openPopupImg.bind(this);
   }
 
