@@ -6,6 +6,16 @@ import {
   FormValidator
 } from './FormValidator.js';
 
+import {
+  openPopup,
+  closePopup
+} from './utils.js';
+
+import {
+  initialCards,
+  validationParams
+} from './constants.js';
+
 const main = document.querySelector(".main");
 const editButton = main.querySelector(".profile__edit-button");
 const addButton = main.querySelector(".profile__add-button");
@@ -14,7 +24,8 @@ const addButton = main.querySelector(".profile__add-button");
 const popups = Array.from(document.querySelectorAll(".popup"));
 const editPopup = document.querySelector(".popup-edit");
 const addPopup = document.querySelector(".popup-add");
-const imgPopup = document.querySelector(".popup-img");
+// перенесла в файл constants, так как обращаюсь к этому элементу в классе Card
+// const imgPopup = document.querySelector(".popup-img");
 
 // создала массив из кнопок закрытия для всех popup-элементов
 const closeButtons = popups.map((item) =>
@@ -44,43 +55,6 @@ const elementsList = document.querySelector(".elements__list");
 // нашла шаблон
 const elementTemplate = document.querySelector("#element").content;
 
-// массив карточек
-const initialCards = [{
-    name: "Архыз",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
-  },
-  {
-    name: "Челябинская область",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
-  },
-  {
-    name: "Иваново",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
-  },
-  {
-    name: "Камчатка",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-  },
-  {
-    name: "Холмогорский район",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
-  },
-  {
-    name: "Байкал",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
-  },
-];
-
-// объект настроек с селекторами и классами формы
-const validationParams = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-};
-
 // валидация редактирования профиля
 const editForm = editPopup.querySelector('.popup-edit__form')
 const editFormCheck = new FormValidator(validationParams, editForm);
@@ -90,7 +64,6 @@ const editFormEl = editFormCheck.enableValidation();
 const addForm = addPopup.querySelector('.popup-add__form')
 const addFormCheck = new FormValidator(validationParams, addForm);
 const addFormEl = addFormCheck.enableValidation();
-
 
 // добавляем все карточки из объявленного массива
 initialCards.forEach((item) => {
@@ -145,19 +118,19 @@ function openPopupAdd() {
 }
 
 // функция открытия popup для всех popup-элементов
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  // закрытие popup нажатием на Escape
-  document.addEventListener('keydown', keyHandler);
-}
+// function openPopup(popup) {
+//   popup.classList.add('popup_opened');
+//   // закрытие popup нажатием на Escape
+//   document.addEventListener('keydown', keyHandler);
+// }
 
 
 // функция закрытия popup для всех popup-элементов
-function closePopup(popup) {
-  // popups.forEach((item) => item.classList.remove("popup_opened"));
-  popup.classList.remove("popup_opened");
-  document.removeEventListener('keydown', keyHandler);
-}
+// function closePopup(popup) {
+//   // popups.forEach((item) => item.classList.remove("popup_opened"));
+//   popup.classList.remove("popup_opened");
+//   document.removeEventListener('keydown', keyHandler);
+// }
 
 // функция отправки формы профиля
 function formSubmitHandler(evt) {
@@ -201,12 +174,12 @@ function addFormSubmitHandler(evt) {
 }
 
 // функция для закрытия модального окна с помощью esc
-function keyHandler(evt) {
-  const popupOpened = document.querySelector('.popup_opened');
-  if (evt.key === "Escape") {
-    closePopup(popupOpened);
-  }
-}
+// function keyHandler(evt) {
+//   const popupOpened = document.querySelector('.popup_opened');
+//   if (evt.key === "Escape") {
+//     closePopup(popupOpened);
+//   }
+// }
 
 
 editButton.addEventListener("click", openPopupEdit);
