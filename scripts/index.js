@@ -16,80 +16,84 @@ import {
   validationParams
 } from './constants.js';
 
-const main = document.querySelector(".main");
-const editButton = main.querySelector(".profile__edit-button");
-const addButton = main.querySelector(".profile__add-button");
+const main = document.querySelector('.main');
+const editButton = main.querySelector('.profile__edit-button');
+const addButton = main.querySelector('.profile__add-button');
 
 // создала массив из popup-элементов
-const popups = Array.from(document.querySelectorAll(".popup"));
-const editPopup = document.querySelector(".popup-edit");
-const addPopup = document.querySelector(".popup-add");
-// перенесла в файл constants, так как обращаюсь к этому элементу в классе Card
-// const imgPopup = document.querySelector(".popup-img");
+const popups = Array.from(document.querySelectorAll('.popup'));
+const editPopup = document.querySelector('.popup-edit');
+const addPopup = document.querySelector('.popup-add');
+// перенесла в файл с классом Card, и прописала внутри класса. Обращаюсь к этому элементу только там
+// const imgPopup = document.querySelector('.popup-img');
 
 // создала массив из кнопок закрытия для всех popup-элементов
 const closeButtons = popups.map((item) =>
-  item.querySelector(".popup__close-button")
+  item.querySelector('.popup__close-button')
 );
 // нашла форму редактирования профиля из всего массива popup
 const editFormElement = popups.find((item) =>
-  item.querySelector(".popup-edit__form")
+  item.querySelector('.popup-edit__form')
 );
 // нашла форму добавления карточки из всего массива popup
 const addFormElement = popups.find((item) =>
-  item.querySelector(".popup-add__form")
+  item.querySelector('.popup-add__form')
 );
 
 // нашла все input из форм
-const nameInput = editFormElement.querySelector(".popup__input_name");
-const jobInput = editFormElement.querySelector(".popup__input_description");
-const titleInput = addFormElement.querySelector(".popup__input_title");
-const linkInput = addFormElement.querySelector(".popup__input_link");
+const nameInput = editFormElement.querySelector('.popup__input_name');
+const jobInput = editFormElement.querySelector('.popup__input_description');
+const titleInput = addFormElement.querySelector('.popup__input_title');
+const linkInput = addFormElement.querySelector('.popup__input_link');
 
-const profileName = main.querySelector(".profile__name");
-const profileJob = main.querySelector(".profile__description");
+const profileName = main.querySelector('.profile__name');
+const profileJob = main.querySelector('.profile__description');
 
 // нашла блок в html, куда далее будут вставляться все карточки с местами
-const elementsList = document.querySelector(".elements__list");
-
-// нашла шаблон
-const elementTemplate = document.querySelector("#element").content;
+const elementsList = document.querySelector('.elements__list');
 
 // валидация редактирования профиля
 const editForm = editPopup.querySelector('.popup-edit__form')
-const editFormCheck = new FormValidator(validationParams, editForm);
-const editFormEl = editFormCheck.enableValidation();
+const editFormValidator = new FormValidator(validationParams, editForm);
+editFormValidator.enableValidation();
 
 // валидация добавления карточки
 const addForm = addPopup.querySelector('.popup-add__form')
-const addFormCheck = new FormValidator(validationParams, addForm);
-const addFormEl = addFormCheck.enableValidation();
+const addFormValidator = new FormValidator(validationParams, addForm);
+addFormValidator.enableValidation();
 
 // добавляем все карточки из объявленного массива
 initialCards.forEach((item) => {
-  const card = new Card(item, "#element");
+  // передаем селектор шаблона карточки в класс Card
+  const card = new Card(item, '#element');
   const cardEl = card.generateCard();
   elementsList.append(cardEl);
 });
 
 // функция очистки ошибок после валидации
-const hideErrors = (formElement, inputElement) => {
-  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-  inputElement.classList.remove('popup__input_type_error');
-  errorElement.classList.remove('popup__error_visible');
-  errorElement.textContent = '';
+const clearErrors = (formElement) => {
+
+  const inputList = Array.from(formElement.querySelectorAll(validationParams.inputSelector));
+
+  inputList.forEach((inputElement) => {
+    if (inputElement.classList.contains(validationParams.inputErrorClass)) {
+      const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+      inputElement.classList.remove(validationParams.inputErrorClass);
+      errorElement.classList.remove(validationParams.errorClass);
+      errorElement.textContent = '';
+    }
+  });
 };
 
 // функция открытия popup редактирования профиля
 function openPopupEdit() {
-  // делаю кнопку сохранить неактивной при открытии окна с редактированием
-  const editSaveButton = editFormElement.querySelector('.popup__button');
-  editSaveButton.classList.add('popup__button_disabled');
-  editSaveButton.disabled = true;
+  // делаю кнопку сохранить активной при открытии окна с редактированием
+  const editSaveButton = editFormElement.querySelector(validationParams.submitButtonSelector);
+  editSaveButton.classList.remove(validationParams.inactiveButtonClass);
+  editSaveButton.disabled = false;
 
   // очищаю ошибки перед открытием popup
-  hideErrors(editFormElement, nameInput);
-  hideErrors(editFormElement, jobInput);
+  clearErrors(editFormElement);
 
   // при открытии формы всегда содержит актульные данные со странички (имя и инфу)
   nameInput.value = profileName.textContent;
@@ -102,42 +106,24 @@ function openPopupEdit() {
 // функция открытия popup добавления карточки
 function openPopupAdd() {
   // делаю кнопку сохранить неактивной при открытии окна с добавлением карточки
-  const addSaveButton = addFormElement.querySelector('.popup__button');
-  addSaveButton.classList.add('popup__button_disabled');
+  const addSaveButton = addFormElement.querySelector(validationParams.submitButtonSelector);
+  addSaveButton.classList.add(validationParams.inactiveButtonClass);
   addSaveButton.disabled = true;
 
   // очищаю ошибки перед открытием popup
-  hideErrors(addFormElement, titleInput);
-  hideErrors(addFormElement, linkInput);
+  clearErrors(addFormElement);
 
   // открытии формы всегда содержит пустые поля ввода
-  titleInput.value = "";
-  linkInput.value = "";
+  titleInput.value = '';
+  linkInput.value = '';
 
   openPopup(addPopup);
 }
 
-// функция открытия popup для всех popup-элементов
-// function openPopup(popup) {
-//   popup.classList.add('popup_opened');
-//   // закрытие popup нажатием на Escape
-//   document.addEventListener('keydown', keyHandler);
-// }
-
-
-// функция закрытия popup для всех popup-элементов
-// function closePopup(popup) {
-//   // popups.forEach((item) => item.classList.remove("popup_opened"));
-//   popup.classList.remove("popup_opened");
-//   document.removeEventListener('keydown', keyHandler);
-// }
-
 // функция отправки формы профиля
-function formSubmitHandler(evt) {
+function editFormSubmitHandler(evt) {
   // отмена стандартной отправки формы
   evt.preventDefault();
-
-  const popupOpened = document.querySelector('.popup_opened');
 
   const name = nameInput.value;
   const job = jobInput.value;
@@ -145,8 +131,12 @@ function formSubmitHandler(evt) {
   profileName.textContent = name;
   profileJob.textContent = job;
 
-  // openClosePopupEdit();
-  closePopup(popupOpened);
+  closePopup(editPopup);
+}
+
+// функция добавления карточки в DOM
+function addCardToDom(card) {
+  elementsList.prepend(card);
 }
 
 // функция отправки формы добавления карточки
@@ -154,41 +144,28 @@ function addFormSubmitHandler(evt) {
   // отмена стандартной отправки формы
   evt.preventDefault();
 
-  const popupOpened = document.querySelector('.popup_opened');
-
-  // const title = titleInput.value;
-  // const link = linkInput.value;
-
   const data = {
     name: titleInput.value,
     link: linkInput.value,
   };
 
-  const card = new Card(data, "#element");
-  const cardEl = card.generateCard();
+  const card = new Card(data, '#element');
+  const cardElement = card.generateCard();
 
-  elementsList.prepend(cardEl);
+  addCardToDom(cardElement);
 
   // openClosePopupEdit();
-  closePopup(popupOpened);
+  closePopup(addPopup);
 }
 
-// функция для закрытия модального окна с помощью esc
-// function keyHandler(evt) {
-//   const popupOpened = document.querySelector('.popup_opened');
-//   if (evt.key === "Escape") {
-//     closePopup(popupOpened);
-//   }
-// }
 
+editButton.addEventListener('click', openPopupEdit);
+addButton.addEventListener('click', openPopupAdd);
 
-editButton.addEventListener("click", openPopupEdit);
-addButton.addEventListener("click", openPopupAdd);
-
-closeButtons.forEach((item) => item.addEventListener("click", () => closePopup(item.closest('.popup'))));
+closeButtons.forEach((item) => item.addEventListener('click', () => closePopup(item.closest('.popup'))));
 
 // закрытие popup нажатием мышки вне контейнера с формой
-popups.forEach((item) => item.addEventListener("click", (evt) => {
+popups.forEach((item) => item.addEventListener('click', (evt) => {
   if (evt.target.classList.contains('popup')) {
     closePopup(item);
   }
@@ -197,5 +174,5 @@ popups.forEach((item) => item.addEventListener("click", (evt) => {
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-editFormElement.addEventListener("submit", formSubmitHandler);
-addFormElement.addEventListener("submit", addFormSubmitHandler);
+editFormElement.addEventListener('submit', editFormSubmitHandler);
+addFormElement.addEventListener('submit', addFormSubmitHandler);

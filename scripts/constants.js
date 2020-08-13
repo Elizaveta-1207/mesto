@@ -34,6 +34,3 @@ export const validationParams = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 };
-
-// popup-элемент с картинкой
-export const imgPopup = document.querySelector(".popup-img");

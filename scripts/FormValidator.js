@@ -1,11 +1,18 @@
 export class FormValidator {
-  constructor(data, validatingForm) {
-    this._formSelector = data.formSelector;
-    this._inputSelector = data.inputSelector;
-    this._submitButtonSelector = data.submitButtonSelector;
-    this._inactiveButtonClass = data.inactiveButtonClass;
-    this._inputErrorClass = data.inputErrorClass;
-    this._errorClass = data.errorClass;
+  constructor({
+    formSelector,
+    inputSelector,
+    submitButtonSelector,
+    inactiveButtonClass,
+    inputErrorClass,
+    errorClass
+  }, validatingForm) {
+    this._formSelector = formSelector;
+    this._inputSelector = inputSelector;
+    this._submitButtonSelector = submitButtonSelector;
+    this._inactiveButtonClass = inactiveButtonClass;
+    this._inputErrorClass = inputErrorClass;
+    this._errorClass = errorClass;
 
     this._validatingForm = validatingForm;
   }
