@@ -34,3 +34,5 @@ export const validationParams = {
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__error_visible'
 };
+
+export const templateId = '#element';

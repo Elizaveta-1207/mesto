@@ -24,6 +24,17 @@ export class FormValidator {
     });
   }
 
+  // публичный метод очистки ошибок валидации
+  clearErrors() {
+    const inputList = Array.from(this._validatingForm.querySelectorAll(this._inputSelector));
+
+    inputList.forEach((inputElement) => {
+      if (inputElement.classList.contains(this._inputErrorClass)) {
+        this._hideInputError(this._validatingForm, inputElement);
+      }
+    });
+  };
+
   _setEventListeners() {
     const inputList = Array.from(this._validatingForm.querySelectorAll(this._inputSelector));
     const buttonElement = this._validatingForm.querySelector(this._submitButtonSelector);

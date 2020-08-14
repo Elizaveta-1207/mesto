@@ -24,9 +24,10 @@ export class Card {
   generateCard() {
     this._element = this._getTemplate();
     this._setEventListeners();
-    this._element.querySelector('.element__img').src = this._link;
+    const elementImg = this._element.querySelector('.element__img');
+    elementImg.src = this._link;
+    elementImg.alt = `Фото: ${this._name}`;
     this._element.querySelector('.element__title').textContent = this._name;
-    this._element.querySelector('.element__img').alt = `Фото: ${this._name}`;
 
     return this._element;
   }
@@ -34,9 +35,11 @@ export class Card {
   // функция открытия popup картинки в большом размере
   _openPopupImg() {
     const imgPopup = document.querySelector('.popup-img');
-    imgPopup.querySelector('.popup__full-img').src = this._link;
+    const imgPopupFull = imgPopup.querySelector('.popup__full-img')
+    imgPopupFull.src = this._link;
+    imgPopupFull.alt = `Фото: ${this._name}`;
     imgPopup.querySelector('.popup__title-img').textContent = this._name;
-    imgPopup.querySelector('.popup__full-img').alt = `Фото: ${this._name}`;
+
     openPopup(imgPopup);
   }
 

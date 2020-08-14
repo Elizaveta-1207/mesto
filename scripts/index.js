@@ -13,8 +13,19 @@ import {
 
 import {
   initialCards,
-  validationParams
+  validationParams,
+  templateId
 } from './constants.js';
+
+// деструктуризация объекта validationParams
+const {
+  formSelector,
+  inputSelector,
+  submitButtonSelector,
+  inactiveButtonClass,
+  inputErrorClass,
+  errorClass
+} = validationParams;
 
 const main = document.querySelector('.main');
 const editButton = main.querySelector('.profile__edit-button');
@@ -65,35 +76,18 @@ addFormValidator.enableValidation();
 // добавляем все карточки из объявленного массива
 initialCards.forEach((item) => {
   // передаем селектор шаблона карточки в класс Card
-  const card = new Card(item, '#element');
-  const cardEl = card.generateCard();
-  elementsList.append(cardEl);
+  elementsList.append(createCard(item));
 });
-
-// функция очистки ошибок после валидации
-const clearErrors = (formElement) => {
-
-  const inputList = Array.from(formElement.querySelectorAll(validationParams.inputSelector));
-
-  inputList.forEach((inputElement) => {
-    if (inputElement.classList.contains(validationParams.inputErrorClass)) {
-      const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-      inputElement.classList.remove(validationParams.inputErrorClass);
-      errorElement.classList.remove(validationParams.errorClass);
-      errorElement.textContent = '';
-    }
-  });
-};
 
 // функция открытия popup редактирования профиля
 function openPopupEdit() {
   // делаю кнопку сохранить активной при открытии окна с редактированием
-  const editSaveButton = editFormElement.querySelector(validationParams.submitButtonSelector);
-  editSaveButton.classList.remove(validationParams.inactiveButtonClass);
+  const editSaveButton = editFormElement.querySelector(submitButtonSelector);
+  editSaveButton.classList.remove(inactiveButtonClass);
   editSaveButton.disabled = false;
 
   // очищаю ошибки перед открытием popup
-  clearErrors(editFormElement);
+  editFormValidator.clearErrors();
 
   // при открытии формы всегда содержит актульные данные со странички (имя и инфу)
   nameInput.value = profileName.textContent;
@@ -106,12 +100,12 @@ function openPopupEdit() {
 // функция открытия popup добавления карточки
 function openPopupAdd() {
   // делаю кнопку сохранить неактивной при открытии окна с добавлением карточки
-  const addSaveButton = addFormElement.querySelector(validationParams.submitButtonSelector);
-  addSaveButton.classList.add(validationParams.inactiveButtonClass);
+  const addSaveButton = addFormElement.querySelector(submitButtonSelector);
+  addSaveButton.classList.add(inactiveButtonClass);
   addSaveButton.disabled = true;
 
   // очищаю ошибки перед открытием popup
-  clearErrors(addFormElement);
+  addFormValidator.clearErrors();
 
   // открытии формы всегда содержит пустые поля ввода
   titleInput.value = '';
@@ -135,24 +129,26 @@ function editFormSubmitHandler(evt) {
 }
 
 // функция добавления карточки в DOM
-function addCardToDom(card) {
+function addCardToDOM(card) {
   elementsList.prepend(card);
 }
 
+function createCard(data) {
+  const card = new Card(data, templateId);
+  const cardElement = card.generateCard();
+  return cardElement;
+}
+
 // функция отправки формы добавления карточки
-function addFormSubmitHandler(evt) {
+function addCardFormSubmitHandler(evt) {
   // отмена стандартной отправки формы
   evt.preventDefault();
-
   const data = {
     name: titleInput.value,
     link: linkInput.value,
   };
 
-  const card = new Card(data, '#element');
-  const cardElement = card.generateCard();
-
-  addCardToDom(cardElement);
+  addCardToDOM(createCard(data));
 
   // openClosePopupEdit();
   closePopup(addPopup);
@@ -175,4 +171,4 @@ popups.forEach((item) => item.addEventListener('click', (evt) => {
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
 editFormElement.addEventListener('submit', editFormSubmitHandler);
-addFormElement.addEventListener('submit', addFormSubmitHandler);
+addFormElement.addEventListener('submit', addCardFormSubmitHandler);
