@@ -36,3 +36,5 @@ export const validationParams = {
 };
 
 export const templateId = '#element';
+
+export const cardListSelector = '.elements__list';

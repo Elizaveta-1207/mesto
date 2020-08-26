@@ -1,18 +1,19 @@
 import {
   openPopup
-} from './utils.js';
+} from '../scripts/utils.js';
 
 
 export class Card {
   constructor({
     name,
     link
-  }, cardSelector) {
+  }, cardSelector, handleCardClick) {
     this._name = name;
     this._link = link;
     this._cardSelector = cardSelector;
     // чтобы корректно отображалось на айфоне, т.к. нельзя применять стрелочные функции в Safari
-    this._openPopupImg = this._openPopupImg.bind(this);
+    // this._openPopupImg = this._openPopupImg.bind(this);
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -48,7 +49,7 @@ export class Card {
     // this._element.querySelector('.element__img').addEventListener('click', () => {
     //   this._openPopupImg();
     // });
-    this._element.querySelector('.element__img').addEventListener('click', this._openPopupImg);
+    this._element.querySelector('.element__img').addEventListener('click', this._handleCardClick);
 
     // обработчик события для удаления карточки
     this._element.querySelector('.element__delete').addEventListener('click', function (evt) {
