@@ -1,8 +1,3 @@
-import {
-  openPopup
-} from '../scripts/utils.js';
-
-
 export class Card {
   constructor({
     name,
@@ -11,8 +6,6 @@ export class Card {
     this._name = name;
     this._link = link;
     this._cardSelector = cardSelector;
-    // чтобы корректно отображалось на айфоне, т.к. нельзя применять стрелочные функции в Safari
-    // this._openPopupImg = this._openPopupImg.bind(this);
     this._handleCardClick = handleCardClick;
   }
 
@@ -33,22 +26,8 @@ export class Card {
     return this._element;
   }
 
-  // функция открытия popup картинки в большом размере
-  _openPopupImg() {
-    const imgPopup = document.querySelector('.popup-img');
-    const imgPopupFull = imgPopup.querySelector('.popup__full-img')
-    imgPopupFull.src = this._link;
-    imgPopupFull.alt = `Фото: ${this._name}`;
-    imgPopup.querySelector('.popup__title-img').textContent = this._name;
-
-    openPopup(imgPopup);
-  }
-
   _setEventListeners() {
-    // обработчик события для открытия картинки в полном размере (пока оставлю этот код)
-    // this._element.querySelector('.element__img').addEventListener('click', () => {
-    //   this._openPopupImg();
-    // });
+    // обработчик события для открытия картинки в полном размере
     this._element.querySelector('.element__img').addEventListener('click', this._handleCardClick);
 
     // обработчик события для удаления карточки
