@@ -9,8 +9,7 @@ module.exports = {
     filename: "index.js",
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.m?js$/,
         exclude: /(node_modules)/,
         use: {
@@ -21,33 +20,34 @@ module.exports = {
         test: /\.css$/i,
         use: [
           MiniCssExtractPlugin.loader,
-          { loader: "css-loader", options: { importLoaders: 1 } },
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1
+            }
+          },
           "postcss-loader",
         ],
       },
       {
         //для картинок
         test: /\.(png|jpe?g|gif|svg)$/i,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              outputPath: "./images",
-            },
+        use: [{
+          loader: "file-loader",
+          options: {
+            outputPath: "./images",
           },
-        ],
+        }, ],
       },
       {
         //для шрифтов
         test: /\.(woff|woff2)$/i,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              outputPath: "./fonts",
-            },
+        use: [{
+          loader: "file-loader",
+          options: {
+            outputPath: "./fonts",
           },
-        ],
+        }, ],
       },
       {
         test: /\.html$/i,
@@ -59,6 +59,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html",
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'index.css',
+    }),
   ],
 };

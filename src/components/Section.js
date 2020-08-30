@@ -5,7 +5,7 @@ export class Section {
   }, containerSelector) {
     this._items = data;
     this._renderer = renderer;
-    this._container = document.querySelector(containerSelector);;
+    this._container = document.querySelector(containerSelector);
   }
 
   renderItems() {
@@ -14,12 +14,11 @@ export class Section {
     });
   }
 
-  addItem(element) {
-    this._container.append(element);
+  addItem(element, isArray) {
+    if (isArray) {
+      this._container.append(element);
+    } else {
+      this._container.prepend(element);
+    }
   }
-
-  setItem(element) {
-    this._container.prepend(element);
-  }
-
 }

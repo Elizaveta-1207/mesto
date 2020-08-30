@@ -59,7 +59,9 @@ const addFormElement = popups.find((item) =>
 const nameInput = editFormElement.querySelector('.popup__input_name');
 const descriptionInput = editFormElement.querySelector('.popup__input_description');
 
-
+// кнопки сохранить для информации о пользователе и для добавления карточки
+const addSaveButton = addFormElement.querySelector(submitButtonSelector);
+const editSaveButton = editFormElement.querySelector(submitButtonSelector);
 
 // валидация редактирования профиля
 const editForm = editPopup.querySelector('.popup-edit__form')
@@ -75,15 +77,21 @@ addFormValidator.enableValidation();
 const imgPopup = new PopupWithImage('.popup-img');
 imgPopup.setEventListeners();
 
+// функция создания экземпляра класса Card
+function createCard(item, templateId) {
+  const card = new Card(item, templateId, () => {
+    imgPopup.open(item.name, item.link);
+  });
+  return card;
+}
+
 // создаём экземпляр класса Section для добавления всех карточек из массива
 const cardList = new Section({
   data: initialCards,
   renderer: (item) => {
-    const card = new Card(item, templateId, () => {
-      imgPopup.open(item.name, item.link);
-    });
+    const card = createCard(item, templateId);
     const cardElement = card.generateCard();
-    cardList.addItem(cardElement);
+    cardList.addItem(cardElement, true);
 
   }
 }, cardListSelector);
@@ -99,14 +107,9 @@ const addCardsList = new Section({
 const addPopupElement = new PopupWithForm({
   popupSelector: '.popup-add',
   handleFormSubmit: (item) => {
-    const card = new Card(item, templateId, () => {
-      // console.log(item.link);
-      imgPopup.open(item.name, item.link);
-    });
-
+    const card = createCard(item, templateId);
     const cardElement = card.generateCard();
-
-    addCardsList.setItem(cardElement);
+    addCardsList.addItem(cardElement, false);
   }
 });
 
@@ -118,7 +121,6 @@ function openPopupAdd() {
   addFormValidator.clearErrors();
 
   // делаю кнопку сохранить неактивной при открытии окна с добавлением карточки
-  const addSaveButton = addFormElement.querySelector(submitButtonSelector);
   addSaveButton.classList.add(inactiveButtonClass);
   addSaveButton.disabled = true;
 
@@ -156,7 +158,6 @@ function openPopupEdit() {
   descriptionInput.value = userInfo.description;
 
   // делаю кнопку сохранить активной при открытии окна с редактированием
-  const editSaveButton = editFormElement.querySelector(submitButtonSelector);
   editSaveButton.classList.remove(inactiveButtonClass);
   editSaveButton.disabled = false;
 
