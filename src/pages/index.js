@@ -121,10 +121,13 @@ api.getInitialCards()
     const cardList = new Section({
       data: result,
       renderer: (item) => {
-        const card = createCard(item, templateId);
-        const cardElement = card.generateCard();
-        cardList.addItem(cardElement, true);
+        // console.log(item.link.slice(0, 6) == 'https:');
+        if (item.link.slice(0, 6) == 'https:') {
+          const card = createCard(item, templateId);
+          const cardElement = card.generateCard();
 
+          cardList.addItem(cardElement, true);
+        }
       }
     }, cardListSelector);
     cardList.renderItems();
