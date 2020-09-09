@@ -4,6 +4,7 @@
 @import url(./__like/element__like.css);
 @import url(./__like/element__like_active.css);
 @import url(./__delete/element__delete.css);
+@import url(./__like-amount/element__like-amount.css);
 
 .element {
   /* height: 361px; */

@@ -1,10 +1,12 @@
 export class Card {
   constructor({
     name,
-    link
+    link,
+    likes
   }, cardSelector, handleCardClick) {
     this._name = name;
     this._link = link;
+    this._likes = likes;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
   }
@@ -22,6 +24,7 @@ export class Card {
     elementImg.src = this._link;
     elementImg.alt = `Фото: ${this._name}`;
     this._element.querySelector('.element__title').textContent = this._name;
+    this._element.querySelector('.element__like-amount').textContent = this._likes.length;
 
     return this._element;
   }

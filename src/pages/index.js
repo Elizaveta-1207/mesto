@@ -31,6 +31,10 @@ import {
   cardListSelector
 } from '../utils/constants.js';
 
+import {
+  Api
+} from '../components/Api.js';
+
 // деструктуризация объекта validationParams
 const {
   submitButtonSelector,
@@ -40,6 +44,8 @@ const {
 const main = document.querySelector('.main');
 const editButton = main.querySelector('.profile__edit-button');
 const addButton = main.querySelector('.profile__add-button');
+const profileName = main.querySelector('.profile__name');
+const profileDescription = main.querySelector('.profile__description');
 
 // создала массив из popup-элементов
 const popups = Array.from(document.querySelectorAll('.popup'));
@@ -85,18 +91,47 @@ function createCard(item, templateId) {
   return card;
 }
 
-// создаём экземпляр класса Section для добавления всех карточек из массива
-const cardList = new Section({
-  data: initialCards,
-  renderer: (item) => {
-    const card = createCard(item, templateId);
-    const cardElement = card.generateCard();
-    cardList.addItem(cardElement, true);
-
+// функция создания экземпляра класса Api
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-15',
+  headers: {
+    authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
+    'Content-Type': 'application/json'
   }
-}, cardListSelector);
+});
 
-cardList.renderItems();
+// console.log(api.getInitialCards());
+// api.getUserInfo();
+// api.editProfile();
+// api.deleteCard();
+// api.addNewCard();
+// .then((result) => {
+//   // обрабатываем результат
+// })
+// .catch((err) => {
+//   console.log(err); // выведем ошибку в консоль
+// });
+
+
+// добавление всех карточек с сервера
+api.getInitialCards()
+  .then((result) => {
+    // console.log(result);
+    // создаём экземпляр класса Section для добавления карточек
+    const cardList = new Section({
+      data: result,
+      renderer: (item) => {
+        const card = createCard(item, templateId);
+        const cardElement = card.generateCard();
+        cardList.addItem(cardElement, true);
+
+      }
+    }, cardListSelector);
+    cardList.renderItems();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 // создала экземпляр класса Section для добавления карточек, которые будет добавлять пользователь
 const addCardsList = new Section({
@@ -107,13 +142,57 @@ const addCardsList = new Section({
 const addPopupElement = new PopupWithForm({
   popupSelector: '.popup-add',
   handleFormSubmit: (item) => {
-    const card = createCard(item, templateId);
-    const cardElement = card.generateCard();
-    addCardsList.addItem(cardElement, false);
+    api.addNewCard(item)
+      .then((result) => {
+        // обрабатываем результат
+        const card = createCard(result, templateId);
+        const cardElement = card.generateCard();
+        addCardsList.addItem(cardElement, false);
+      });
   }
 });
 
 addPopupElement.setEventListeners();
+
+// const cardList = new Section({
+//   data: api.getInitialCards(),
+//   renderer: (item) => {
+//     const card = createCard(item, templateId);
+//     const cardElement = card.generateCard();
+//     cardList.addItem(cardElement, true);
+
+//   }
+// }, cardListSelector);
+
+// создаём экземпляр класса Section для добавления всех карточек из массива
+// const cardList = new Section({
+//   data: initialCards,
+//   renderer: (item) => {
+//     const card = createCard(item, templateId);
+//     const cardElement = card.generateCard();
+//     cardList.addItem(cardElement, true);
+
+//   }
+// }, cardListSelector);
+
+// cardList.renderItems();
+
+// создала экземпляр класса Section для добавления карточек, которые будет добавлять пользователь
+// const addCardsList = new Section({
+//   data: []
+// }, cardListSelector);
+
+// // создала экземпляр класса PopupWithForm для добавления карточки
+// const addPopupElement = new PopupWithForm({
+//   popupSelector: '.popup-add',
+//   handleFormSubmit: (item) => {
+//     const card = createCard(item, templateId);
+//     const cardElement = card.generateCard();
+//     addCardsList.addItem(cardElement, false);
+//   }
+// });
+
+// addPopupElement.setEventListeners();
 
 // функция открытия popup добавления карточки
 function openPopupAdd() {
@@ -128,6 +207,12 @@ function openPopupAdd() {
   addPopupElement.open();
 }
 
+api.getUserInfo()
+  .then((result) => {
+    profileName.textContent = result.name;
+    profileDescription.textContent = result.about;
+  });
+
 // создала экземпляр класса UserInfo для использования информации пользователя при смене данных
 const userData = new UserInfo({
   nameSelector: '.profile__name',
@@ -138,9 +223,11 @@ const userData = new UserInfo({
 const editPopupElement = new PopupWithForm({
   popupSelector: '.popup-edit',
   handleFormSubmit: (item) => {
-
-    userData.setUserInfo(item.name, item.description);
-
+    api.editProfile(item)
+      .then((result) => {
+        // обрабатываем результат
+        userData.setUserInfo(result.name, result.about);
+      });
   }
 });
 
