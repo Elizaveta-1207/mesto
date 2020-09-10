@@ -7,7 +7,7 @@
   background-color: #000;
   color: #fff;
   cursor: pointer;
-  margin-top: 48px;
+  /* margin-top: 48px; */
   font-size: 18px;
   line-height: 1.2;
   text-align: center;
@@ -24,15 +24,9 @@
   background-color: #000c;
 }
 
-@media screen and (max-width:767px) {
-  .popup__button {
-    margin-top: 40px;
-  }
-}
-
 @media screen and (max-height:424px) {
   .popup__button {
-    margin-top: 28px;
+    /* margin-top: 28px; */
     height: 32px;
     font-size: 16px;
   }

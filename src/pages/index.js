@@ -21,6 +21,10 @@ import {
 } from '../components/PopupWithImage.js';
 
 import {
+  PopupConfirm
+} from '../components/PopupConfirm.js';
+
+import {
   UserInfo
 } from '../components/UserInfo.js';
 
@@ -51,6 +55,7 @@ const profileDescription = main.querySelector('.profile__description');
 const popups = Array.from(document.querySelectorAll('.popup'));
 const editPopup = document.querySelector('.popup-edit');
 const addPopup = document.querySelector('.popup-add');
+const confirmPopup = document.querySelector('.popup-confirm');
 
 // нашла форму редактирования профиля из всего массива popup
 const editFormElement = popups.find((item) =>
@@ -83,14 +88,6 @@ addFormValidator.enableValidation();
 const imgPopup = new PopupWithImage('.popup-img');
 imgPopup.setEventListeners();
 
-// функция создания экземпляра класса Card
-function createCard(item, templateId) {
-  const card = new Card(item, templateId, () => {
-    imgPopup.open(item.name, item.link);
-  });
-  return card;
-}
-
 // функция создания экземпляра класса Api
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-15',
@@ -99,6 +96,48 @@ const api = new Api({
     'Content-Type': 'application/json'
   }
 });
+
+// создала экземпляр класса PopupConfirm для подтверждения удаления карточки
+const confirmPopupElement = new PopupConfirm({
+  popupSelector: '.popup-confirm',
+  handleSubmit: (item) => {
+    api.deleteCard(item._id)
+      .then(() => {
+        console.log(item);
+        item._element.remove();
+        item._element = null;
+
+      })
+      .finally(() => confirmPopupElement.close());
+  }
+});
+confirmPopupElement.setEventListeners();
+// editPopupElement.setEventListeners();
+// // функция открытия popup подтверждение удаления
+// function openPopupConfirm() {
+
+
+//   // открываю popup добавления карточки
+//   addPopupElement.open();
+// }
+
+// функция создания экземпляра класса Card
+function createCard(item, templateId) {
+  const card = new Card(item, templateId,
+    () => {
+      imgPopup.open(item.name, item.link);
+    },
+    () => {
+      card._id = item._id;
+      confirmPopupElement.open(card);
+      console.log(card._id);
+    });
+  // console.log(item);
+  // console.log(item._id);
+  return card;
+}
+
+
 
 // console.log(api.getInitialCards());
 // api.getUserInfo();
@@ -122,9 +161,12 @@ api.getInitialCards()
       data: result,
       renderer: (item) => {
         // console.log(item.link.slice(0, 6) == 'https:');
+        // проверяю, что с сервера приходит верный link
         if (item.link.slice(0, 6) == 'https:') {
           const card = createCard(item, templateId);
           const cardElement = card.generateCard();
+          // console.log(item);
+          // console.log(cardElement);
 
           cardList.addItem(cardElement, true);
         }
@@ -254,6 +296,27 @@ function openPopupEdit() {
   // открываю popup редактирования
   editPopupElement.open();
 }
+
+// создала экземпляр класса PopupConfirm для подтверждения удаления карточки
+// const confirmPopupElement = new PopupConfirm({
+//   popupSelector: '.popup-confirm',
+//   handleSubmit: (item) => {
+//     api.deleteCard(item);
+//       // .then((result) => {
+//       //   // обрабатываем результат
+//       //   userData.setUserInfo(result.name, result.about);
+//       // });
+//   }
+// });
+
+// editPopupElement.setEventListeners();
+// // функция открытия popup подтверждение удаления
+// function openPopupConfirm() {
+
+
+//   // открываю popup добавления карточки
+//   addPopupElement.open();
+// }
 
 
 editButton.addEventListener('click', openPopupEdit);

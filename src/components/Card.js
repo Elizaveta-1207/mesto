@@ -2,13 +2,16 @@ export class Card {
   constructor({
     name,
     link,
-    likes
-  }, cardSelector, handleCardClick) {
+    likes,
+    owner
+  }, cardSelector, handleCardClick, handleDeleteIconClick) {
     this._name = name;
     this._link = link;
     this._likes = likes;
+    this._owner = owner;
     this._cardSelector = cardSelector;
     this._handleCardClick = handleCardClick;
+    this._handleDeleteIconClick = handleDeleteIconClick;
   }
 
   _getTemplate() {
@@ -26,6 +29,14 @@ export class Card {
     this._element.querySelector('.element__title').textContent = this._name;
     this._element.querySelector('.element__like-amount').textContent = this._likes.length;
 
+    if (this._owner._id != 'bbdbf9a9d7d77861a60fb2e7') {
+      this._element.querySelector('.element__delete').remove();
+    }
+
+    // console.log(card);
+    // console.log(this._element);
+
+    // this._setEventListeners(this._element);
     return this._element;
   }
 
@@ -34,9 +45,11 @@ export class Card {
     this._element.querySelector('.element__img').addEventListener('click', this._handleCardClick);
 
     // обработчик события для удаления карточки
-    this._element.querySelector('.element__delete').addEventListener('click', function (evt) {
-      evt.target.closest('.element').remove();
-    });
+    // this._element.querySelector('.element__delete').addEventListener('click', function (evt) {
+    //   evt.target.closest('.element').remove();
+    // });
+
+    this._element.querySelector('.element__delete').addEventListener('click', this._handleDeleteIconClick);
 
     // обработчик события для нажатия лайка
     this._element.querySelector('.element__like').addEventListener('click', function (evt) {

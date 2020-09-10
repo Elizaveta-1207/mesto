@@ -51,14 +51,22 @@ export class Api {
       });
   }
 
-  deleteCard() {
-    fetch(`https://mesto.nomoreparties.co/v1/cohort-15/cards/5f58e88b781030001f332458`, {
-      method: 'DELETE',
-      headers: {
-        authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
-        'Content-Type': 'application/json'
-      }
-    });
+  deleteCard(cardId) {
+    return fetch(`https://mesto.nomoreparties.co/v1/cohort-15/cards/${cardId}`, {
+        method: 'DELETE',
+        headers: {
+          authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        // если ошибка, отклоняем промис
+        return Promise.reject(`Ошибка: ${res.status}`);
+      });
   }
 
   addLike(card) {
