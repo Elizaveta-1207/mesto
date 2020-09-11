@@ -157,18 +157,28 @@ export class Api {
       .catch(err => console.log(`Error ${err}`));
   }
 
-  editAvatar() {
-    fetch('https://mesto.nomoreparties.co/v1/cohort-15/users/me/avatar', {
-      method: 'PATCH',
-      headers: {
-        authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        avatar: '../images/profile-avatar-me.jpg'
+  editAvatar({
+    link
+  }) {
+    return fetch('https://mesto.nomoreparties.co/v1/cohort-15/users/me/avatar', {
+        method: 'PATCH',
+        headers: {
+          authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          // avatar: '../images/profile-avatar-me.jpg'
+          avatar: `${link}`
+        })
       })
-    });
-  }
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
 
-  // другие методы работы с API
+        // если ошибка, отклоняем промис
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .catch(err => console.log(`Error ${err}`));
+  }
 }

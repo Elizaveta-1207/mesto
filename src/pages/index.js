@@ -1,43 +1,43 @@
-import "../pages/index.css";
+import '../pages/index.css';
 
 import {
   Card
-} from "../components/Card.js";
+} from '../components/Card.js';
 
 import {
   FormValidator
-} from "../components/FormValidator.js";
+} from '../components/FormValidator.js';
 
 import {
   Section
-} from "../components/Section.js";
+} from '../components/Section.js';
 
 import {
   PopupWithForm
-} from "../components/PopupWithForm.js";
+} from '../components/PopupWithForm.js';
 
 import {
   PopupWithImage
-} from "../components/PopupWithImage.js";
+} from '../components/PopupWithImage.js';
 
 import {
   PopupConfirm
-} from "../components/PopupConfirm.js";
+} from '../components/PopupConfirm.js';
 
 import {
   UserInfo
-} from "../components/UserInfo.js";
+} from '../components/UserInfo.js';
 
 import {
   initialCards,
   validationParams,
   templateId,
   cardListSelector,
-} from "../utils/constants.js";
+} from '../utils/constants.js';
 
 import {
   Api
-} from "../components/Api.js";
+} from '../components/Api.js';
 
 // деструктуризация объекта validationParams
 const {
@@ -45,63 +45,77 @@ const {
   inactiveButtonClass
 } = validationParams;
 
-const main = document.querySelector(".main");
-const editButton = main.querySelector(".profile__edit-button");
-const addButton = main.querySelector(".profile__add-button");
-const profileName = main.querySelector(".profile__name");
-const profileDescription = main.querySelector(".profile__description");
+const main = document.querySelector('.main');
+const editButton = main.querySelector('.profile__edit-button');
+const addButton = main.querySelector('.profile__add-button');
+const profileAvatar = main.querySelector('.profile__avatar');
+console.log(profileAvatar.style.backgroundImage);
+console.log(profileAvatar);
+const profileName = main.querySelector('.profile__name');
+const profileDescription = main.querySelector('.profile__description');
 
 // создала массив из popup-элементов
-const popups = Array.from(document.querySelectorAll(".popup"));
-const editPopup = document.querySelector(".popup-edit");
-const addPopup = document.querySelector(".popup-add");
-const confirmPopup = document.querySelector(".popup-confirm");
+const popups = Array.from(document.querySelectorAll('.popup'));
+const editPopup = document.querySelector('.popup-edit');
+const addPopup = document.querySelector('.popup-add');
+const confirmPopup = document.querySelector('.popup-confirm');
+const avatarPopup = document.querySelector('.popup-avatar')
 
 // нашла форму редактирования профиля из всего массива popup
 const editFormElement = popups.find((item) =>
-  item.querySelector(".popup-edit__form")
+  item.querySelector('.popup-edit__form')
 );
 // нашла форму добавления карточки из всего массива popup
 const addFormElement = popups.find((item) =>
-  item.querySelector(".popup-add__form")
+  item.querySelector('.popup-add__form')
+);
+// нашла форму изменения аватарки из всего массива popup
+const avatarFormElement = popups.find((item) =>
+  item.querySelector('.popup-avatar__form')
 );
 
 // нашла все input из формы редактирования
-const nameInput = editFormElement.querySelector(".popup__input_name");
+const nameInput = editFormElement.querySelector('.popup__input_name');
 const descriptionInput = editFormElement.querySelector(
-  ".popup__input_description"
+  '.popup__input_description'
 );
 
 // кнопки сохранить для информации о пользователе и для добавления карточки
 const addSaveButton = addFormElement.querySelector(submitButtonSelector);
 const editSaveButton = editFormElement.querySelector(submitButtonSelector);
+const avatarSaveButton = avatarFormElement.querySelector(submitButtonSelector);
 
 // валидация редактирования профиля
-const editForm = editPopup.querySelector(".popup-edit__form");
+const editForm = editPopup.querySelector('.popup-edit__form');
 const editFormValidator = new FormValidator(validationParams, editForm);
 editFormValidator.enableValidation();
 
 // валидация добавления карточки
-const addForm = addPopup.querySelector(".popup-add__form");
+const addForm = addPopup.querySelector('.popup-add__form');
 const addFormValidator = new FormValidator(validationParams, addForm);
 addFormValidator.enableValidation();
 
+// валидация добавления аватарки
+const avatarForm = avatarPopup.querySelector('.popup-avatar__form');
+const avatarFormValidator = new FormValidator(validationParams, avatarForm);
+avatarFormValidator.enableValidation();
+
 // создала экземпляр класса PopupWithImage
-const imgPopup = new PopupWithImage(".popup-img");
+const imgPopup = new PopupWithImage('.popup-img');
 imgPopup.setEventListeners();
 
 // функция создания экземпляра класса Api
 const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-15",
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-15',
   headers: {
-    authorization: "36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8",
-    "Content-Type": "application/json",
+    authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
+    'Content-Type': 'application/json',
   },
 });
 
 // создала экземпляр класса PopupConfirm для подтверждения удаления карточки
 const confirmPopupElement = new PopupConfirm({
-  popupSelector: ".popup-confirm",
+  popupSelector: '.popup-confirm',
   handleSubmit: (item) => {
     api.deleteCard(item._id)
       .then(() => {
@@ -141,12 +155,14 @@ function createCard(item, templateId) {
       if (evt.target.classList.contains('element__like_active')) {
         api.addLike(item._id)
           .then(() => {
-            api.getUserInfo()
-              .then((result) => {
-                // console.log(result);
-                item.likes.push(result);
-                elementLikeAmount.textContent = item.likes.length;
-              });
+            item.likes.push(user);
+            elementLikeAmount.textContent = item.likes.length;
+            // api.getUserInfo()
+            //   .then((result) => {
+            //     // console.log(result);
+            //     item.likes.push(result);
+            //     elementLikeAmount.textContent = item.likes.length;
+            //   });
             // item.likes.push(item.owner);
 
             // console.log(item.likes);
@@ -154,29 +170,17 @@ function createCard(item, templateId) {
       } else {
         api.deleteLike(item._id)
           .then(() => {
-            api.getUserInfo()
-              .then((result) => {
-                // console.log(item.likes);
-                // console.log(result);
-                // item.likes.pop(result);
-
-                // удаление своего лайка из карточки
-                // нахожу в массиве лайков индек своего лайка и вырезаю его из массива лайков
-                item.likes.forEach((user) => {
-                  if (user._id == 'bbdbf9a9d7d77861a60fb2e7') {
-                    const userIndex = item.likes.indexOf(user);
-                    // console.log(userIndex);
-                    // console.log(user);
-                    if (userIndex !== -1) {
-                      item.likes.splice(userIndex, 1);
-                      elementLikeAmount.textContent = item.likes.length;
-                    }
-                  }
-                });
-
-                // console.log(item.likes.indexOf(result));
-              });
-            // item.likes.pop(item.owner);
+            item.likes.forEach((user) => {
+              if (user._id == 'bbdbf9a9d7d77861a60fb2e7') {
+                const userIndex = item.likes.indexOf(user);
+                // console.log(userIndex);
+                // console.log(user);
+                if (userIndex !== -1) {
+                  item.likes.splice(userIndex, 1);
+                  elementLikeAmount.textContent = item.likes.length;
+                }
+              }
+            });
 
           })
       }
@@ -201,8 +205,7 @@ function createCard(item, templateId) {
 // });
 
 // добавление всех карточек с сервера
-api
-  .getInitialCards()
+api.getInitialCards()
   .then((result) => {
     // console.log(result);
     // создаём экземпляр класса Section для добавления карточек
@@ -211,7 +214,7 @@ api
         renderer: (item) => {
           // console.log(item.link.slice(0, 6) == 'https:');
           // проверяю, что с сервера приходит верный link
-          if (item.link.slice(0, 6) == "https:") {
+          if (item.link.slice(0, 6) == 'https:') {
             const card = createCard(item, templateId);
             const cardElement = card.generateCard();
             // console.log(item);
@@ -238,7 +241,7 @@ const addCardsList = new Section({
 
 // создала экземпляр класса PopupWithForm для добавления карточки
 const addPopupElement = new PopupWithForm({
-  popupSelector: ".popup-add",
+  popupSelector: '.popup-add',
   handleFormSubmit: (item) => {
     api.addNewCard(item).then((result) => {
       // обрабатываем результат
@@ -304,24 +307,31 @@ function openPopupAdd() {
   addPopupElement.open();
 }
 
+//создаём переменную для запоминания пользователя, который что-то делает на страничке (а именно меня)
+let user = null;
 api.getUserInfo().then((result) => {
+  console.log(result.avatar);
   profileName.textContent = result.name;
   profileDescription.textContent = result.about;
+  // profileAvatar.style.backgroundImage = result.avatar;
+  profileAvatar.style.backgroundImage = `url(${result.avatar})`;
+  user = result;
 });
 
 // создала экземпляр класса UserInfo для использования информации пользователя при смене данных
 const userData = new UserInfo({
-  nameSelector: ".profile__name",
-  descriptionSelector: ".profile__description",
+  nameSelector: '.profile__name',
+  descriptionSelector: '.profile__description',
+  avatarSelector: '.profile__avatar'
 });
 
 // создала экземпляр класса PopupWithForm для редактирования профиля
 const editPopupElement = new PopupWithForm({
-  popupSelector: ".popup-edit",
+  popupSelector: '.popup-edit',
   handleFormSubmit: (item) => {
     api.editProfile(item).then((result) => {
       // обрабатываем результат
-      userData.setUserInfo(result.name, result.about);
+      userData.setUserInfo(result);
       // console.log(result);
     });
   },
@@ -337,7 +347,7 @@ function openPopupEdit() {
   // при открытии форма всегда содержит актульные данные со странички (имя и инфу)
   const userInfo = userData.getUserInfo();
   nameInput.value = userInfo.name;
-  descriptionInput.value = userInfo.description;
+  descriptionInput.value = userInfo.about;
 
   // делаю кнопку сохранить активной при открытии окна с редактированием
   editSaveButton.classList.remove(inactiveButtonClass);
@@ -346,6 +356,8 @@ function openPopupEdit() {
   // открываю popup редактирования
   editPopupElement.open();
 }
+
+
 
 // создала экземпляр класса PopupConfirm для подтверждения удаления карточки
 // const confirmPopupElement = new PopupConfirm({
@@ -367,5 +379,41 @@ function openPopupEdit() {
 //   addPopupElement.open();
 // }
 
-editButton.addEventListener("click", openPopupEdit);
-addButton.addEventListener("click", openPopupAdd);
+//------------------------------------------------------------------
+
+
+// создала экземпляр класса PopupWithForm для редактирования аватарки
+const avatarPopupElement = new PopupWithForm({
+  popupSelector: '.popup-avatar',
+  handleFormSubmit: (item) => {
+    // console.log(item);
+    api.editAvatar(item)
+      .then((result) => {
+        // обрабатываем результат
+        userData.setUserInfo(result);
+        console.log(result.avatar);
+      });
+  },
+});
+
+avatarPopupElement.setEventListeners();
+
+// функция открытия popup редактирования профиля
+function openPopupAvatar() {
+  // очищаю ошибки перед открытием popup
+  avatarFormValidator.clearErrors();
+
+  // делаю кнопку сохранить неактивной при открытии окна с изменение аватарки
+  avatarSaveButton.classList.add(inactiveButtonClass);
+  avatarSaveButton.disabled = true;
+
+  // открываю popup редактирования
+  avatarPopupElement.open();
+}
+
+
+
+editButton.addEventListener('click', openPopupEdit);
+addButton.addEventListener('click', openPopupAdd);
+
+profileAvatar.addEventListener('click', openPopupAvatar);
