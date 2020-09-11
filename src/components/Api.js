@@ -17,7 +17,8 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      })
+      .catch(err => console.log(`Error ${err}`));
     // .then((result) => {
     //   console.log(result);
     //   // return result;
@@ -48,7 +49,8 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      })
+      .catch(err => console.log(`Error ${err}`));
   }
 
   deleteCard(cardId) {
@@ -66,11 +68,12 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      })
+      .catch(err => console.log(`Error ${err}`));
   }
 
-  addLike(card) {
-    fetch(`https://mesto.nomoreparties.co/v1/cohort-15/cards/${card._id}`, {
+  addLike(cardId) {
+    return fetch(`https://mesto.nomoreparties.co/v1/cohort-15/cards/likes/${cardId}`, {
         method: 'PUT',
         headers: {
           authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
@@ -85,20 +88,27 @@ export class Api {
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
       })
-      .then((result) => {
-        console.log(result);
-      });
+      .catch(err => console.log(`Error ${err}`));
 
   }
 
-  deleteLike(card) {
-    fetch(`https://mesto.nomoreparties.co/v1/cohort-15/cards/${card._id}`, {
-      method: 'DELETE',
-      headers: {
-        authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
-        'Content-Type': 'application/json'
-      }
-    });
+  deleteLike(cardId) {
+    return fetch(`https://mesto.nomoreparties.co/v1/cohort-15/cards/likes/${cardId}`, {
+        method: 'DELETE',
+        headers: {
+          authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        // если ошибка, отклоняем промис
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .catch(err => console.log(`Error ${err}`));
   }
 
   getUserInfo() {
@@ -115,7 +125,8 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      })
+      .catch(err => console.log(`Error ${err}`));
   }
 
   editProfile({
@@ -142,7 +153,8 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      })
+      .catch(err => console.log(`Error ${err}`));
   }
 
   editAvatar() {
