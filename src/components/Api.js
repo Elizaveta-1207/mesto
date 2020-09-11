@@ -19,10 +19,6 @@ export class Api {
         return Promise.reject(`Ошибка: ${res.status}`);
       })
       .catch(err => console.log(`Error ${err}`));
-    // .then((result) => {
-    //   console.log(result);
-    //   // return result;
-    // });
   }
 
   addNewCard({
@@ -36,8 +32,6 @@ export class Api {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          // name: 'Петухи',
-          // link: 'https://www.igrushki-rukami-svoimi.ru/wp-content/uploads/2016/10/Kartinki-i-foto-petuha-7.jpg'
           name: name,
           link: link
         })
@@ -140,8 +134,6 @@ export class Api {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          // name: 'Elizaveta Timonina',
-          // about: 'Master of science'
           name: name,
           about: description
         })
@@ -167,7 +159,6 @@ export class Api {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          // avatar: '../images/profile-avatar-me.jpg'
           avatar: `${link}`
         })
       })

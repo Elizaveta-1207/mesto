@@ -40,10 +40,6 @@ export class Card {
       }
     });
 
-    // console.log(card);
-    // console.log(this._element);
-
-    // this._setEventListeners(this._element);
     return this._element;
   }
 
@@ -52,16 +48,9 @@ export class Card {
     this._element.querySelector('.element__img').addEventListener('click', this._handleCardClick);
 
     // обработчик события для удаления карточки
-    // this._element.querySelector('.element__delete').addEventListener('click', function (evt) {
-    //   evt.target.closest('.element').remove();
-    // });
-
     this._element.querySelector('.element__delete').addEventListener('click', this._handleDeleteIconClick);
 
     // обработчик события для нажатия лайка
-    // this._element.querySelector('.element__like').addEventListener('click', function (evt) {
-    //   evt.target.classList.toggle('element__like_active');
-    // });
     this._element.querySelector('.element__like').addEventListener('click', this._handleLikeClick);
   }
 

@@ -14,20 +14,13 @@ export class PopupConfirm extends Popup {
   open(card) {
     super.open();
     this._card = card;
-    console.log(this._card);
   }
 
   setEventListeners() {
     this._popup.querySelector('.popup__button').addEventListener('click', function (evt) {
       evt.preventDefault();
       this._handleSubmit(this._card);
-      // console.log(this._card);
     }.bind(this));
     super.setEventListeners();
   }
-
-  // close() {
-  //   super.close();
-  // }
-
 }
