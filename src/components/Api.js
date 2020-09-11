@@ -1,13 +1,15 @@
 export class Api {
   constructor(options) {
-    // тело конструктора
+    this._token = options.baseUrl;
+    this._authorization = options.headers.authorization;
+    this._contentType = options.headers["Content-type"];
   }
 
   getInitialCards() {
-    return fetch('https://mesto.nomoreparties.co/v1/cohort-15/cards', {
+    return fetch(`${this._token}/cards`, {
         method: 'GET',
         headers: {
-          authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8'
+          authorization: this._authorization
         }
       })
       .then(res => {
@@ -25,11 +27,11 @@ export class Api {
     name,
     link
   }) {
-    return fetch('https://mesto.nomoreparties.co/v1/cohort-15/cards', {
+    return fetch(`${this._token}/cards`, {
         method: 'POST',
         headers: {
-          authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
-          'Content-Type': 'application/json'
+          authorization: this._authorization,
+          'Content-Type': `${this._contentType}`
         },
         body: JSON.stringify({
           name: name,
@@ -48,11 +50,11 @@ export class Api {
   }
 
   deleteCard(cardId) {
-    return fetch(`https://mesto.nomoreparties.co/v1/cohort-15/cards/${cardId}`, {
+    return fetch(`${this._token}/cards/${cardId}`, {
         method: 'DELETE',
         headers: {
-          authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
-          'Content-Type': 'application/json'
+          authorization: this._authorization,
+          'Content-Type': `${this._contentType}`
         }
       })
       .then(res => {
@@ -67,11 +69,11 @@ export class Api {
   }
 
   addLike(cardId) {
-    return fetch(`https://mesto.nomoreparties.co/v1/cohort-15/cards/likes/${cardId}`, {
+    return fetch(`${this._token}/cards/likes/${cardId}`, {
         method: 'PUT',
         headers: {
-          authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
-          'Content-Type': 'application/json'
+          authorization: this._authorization,
+          'Content-Type': `${this._contentType}`
         }
       })
       .then(res => {
@@ -87,11 +89,11 @@ export class Api {
   }
 
   deleteLike(cardId) {
-    return fetch(`https://mesto.nomoreparties.co/v1/cohort-15/cards/likes/${cardId}`, {
+    return fetch(`${this._token}/cards/likes/${cardId}`, {
         method: 'DELETE',
         headers: {
-          authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
-          'Content-Type': 'application/json'
+          authorization: this._authorization,
+          'Content-Type': `${this._contentType}`
         }
       })
       .then(res => {
@@ -106,10 +108,10 @@ export class Api {
   }
 
   getUserInfo() {
-    return fetch('https://mesto.nomoreparties.co/v1/cohort-15/users/me', {
+    return fetch(`${this._token}/users/me`, {
         method: 'GET',
         headers: {
-          authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8'
+          authorization: this._authorization
         }
       })
       .then(res => {
@@ -127,11 +129,11 @@ export class Api {
     name,
     description
   }) {
-    return fetch('https://mesto.nomoreparties.co/v1/cohort-15/users/me', {
+    return fetch(`${this._token}/users/me`, {
         method: 'PATCH',
         headers: {
-          authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
-          'Content-Type': 'application/json'
+          authorization: this._authorization,
+          'Content-Type': `${this._contentType}`
         },
         body: JSON.stringify({
           name: name,
@@ -152,11 +154,11 @@ export class Api {
   editAvatar({
     link
   }) {
-    return fetch('https://mesto.nomoreparties.co/v1/cohort-15/users/me/avatar', {
+    return fetch(`${this._token}/users/me/avatar`, {
         method: 'PATCH',
         headers: {
-          authorization: '36046fe7-1e8e-4a22-8e60-7f2eb2d5b2d8',
-          'Content-Type': 'application/json'
+          authorization: this._authorization,
+          'Content-Type': `${this._contentType}`
         },
         body: JSON.stringify({
           avatar: `${link}`

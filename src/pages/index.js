@@ -29,7 +29,6 @@ import {
 } from '../components/UserInfo.js';
 
 import {
-  initialCards,
   validationParams,
   templateId,
   cardListSelector,
@@ -220,26 +219,21 @@ function createCard(item, templateId) {
   const card = new Card(
     item,
     templateId,
-
     // функция открытия картинки в большом размере
     () => {
       imgPopup.open(item.name, item.link);
     },
-
     // функция открытия попапа удаления карточки
     () => {
       // добавляем объекту карточки свойство содержащее её id
       card._id = item._id;
       confirmPopupElement.open(card);
     },
-
     // функция работы с проставление и удалением лайка
     (evt) => {
       evt.target.classList.toggle('element__like_active');
-
       // элемент с количеством лайков
       const elementLikeAmount = evt.target.closest('.element__likes').querySelector('.element__like-amount');
-
 
       if (evt.target.classList.contains('element__like_active')) {
         api.addLike(item._id)
