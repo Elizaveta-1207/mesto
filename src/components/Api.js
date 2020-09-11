@@ -31,7 +31,7 @@ export class Api {
         method: 'POST',
         headers: {
           authorization: this._authorization,
-          'Content-Type': `${this._contentType}`
+          'Content-Type': this._contentType
         },
         body: JSON.stringify({
           name: name,
@@ -54,7 +54,7 @@ export class Api {
         method: 'DELETE',
         headers: {
           authorization: this._authorization,
-          'Content-Type': `${this._contentType}`
+          'Content-Type': this._contentType
         }
       })
       .then(res => {
@@ -73,7 +73,7 @@ export class Api {
         method: 'PUT',
         headers: {
           authorization: this._authorization,
-          'Content-Type': `${this._contentType}`
+          'Content-Type': this._contentType
         }
       })
       .then(res => {
@@ -93,7 +93,7 @@ export class Api {
         method: 'DELETE',
         headers: {
           authorization: this._authorization,
-          'Content-Type': `${this._contentType}`
+          'Content-Type': this._contentType
         }
       })
       .then(res => {
@@ -133,7 +133,7 @@ export class Api {
         method: 'PATCH',
         headers: {
           authorization: this._authorization,
-          'Content-Type': `${this._contentType}`
+          'Content-Type': this._contentType
         },
         body: JSON.stringify({
           name: name,
@@ -158,7 +158,7 @@ export class Api {
         method: 'PATCH',
         headers: {
           authorization: this._authorization,
-          'Content-Type': `${this._contentType}`
+          'Content-Type': this._contentType
         },
         body: JSON.stringify({
           avatar: `${link}`
