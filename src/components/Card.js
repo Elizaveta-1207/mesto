@@ -4,12 +4,13 @@ export class Card {
     link,
     likes,
     owner
-  }, cardSelector, handleCardClick, handleDeleteIconClick, handleLikeClick) {
+  }, cardSelector, currentUserId, handleCardClick, handleDeleteIconClick, handleLikeClick) {
     this._name = name;
     this._link = link;
     this._likes = likes;
     this._owner = owner;
     this._cardSelector = cardSelector;
+    this._currentUserId = currentUserId;
     this._handleCardClick = handleCardClick;
     this._handleDeleteIconClick = handleDeleteIconClick;
     this._handleLikeClick = handleLikeClick;
@@ -30,12 +31,13 @@ export class Card {
     this._element.querySelector('.element__title').textContent = this._name;
     this._element.querySelector('.element__like-amount').textContent = this._likes.length;
 
-    if (this._owner._id !== 'bbdbf9a9d7d77861a60fb2e7') {
+
+    if (this._owner._id !== this._currentUserId) {
       this._element.querySelector('.element__delete').remove();
     };
 
     this._likes.forEach((item) => {
-      if (item._id == 'bbdbf9a9d7d77861a60fb2e7') {
+      if (item._id == this._currentUserId) {
         this._element.querySelector('.element__like').classList.add('element__like_active');
       }
     });

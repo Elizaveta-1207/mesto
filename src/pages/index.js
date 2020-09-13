@@ -102,17 +102,32 @@ const api = new Api({
   }
 });
 
+const promises = [api.getUserInfo(), api.getInitialCards()];
+
+Promise.all(promises)
+  .then((results) => {
+    // console.log(results);
+    setupUser(results[0]);
+    setupCards(results[1]);
+
+    // добавление слушателей на кнопки после получения информации о пользователе и карточках с сервера
+    editButton.addEventListener('click', openPopupEdit);
+    addButton.addEventListener('click', openPopupAdd);
+    profileAvatar.addEventListener('click', openPopupAvatar);
+  })
+  .catch(err => console.log(`Error ${err}`));
+
 
 // переменная для запоминания пользователя, который что-то делает на страничке (а именно меня)
-let user = null;
+let currentUser = null;
 
-// получаем всю информацию о пользователе с сервера
-api.getUserInfo().then((result) => {
-  profileName.textContent = result.name;
-  profileDescription.textContent = result.about;
-  profileAvatar.style.backgroundImage = `url(${result.avatar})`;
-  user = result;
-});
+// функция установки информации о пользователе, например с сервера
+function setupUser(user) {
+  profileName.textContent = user.name;
+  profileDescription.textContent = user.about;
+  profileAvatar.style.backgroundImage = `url(${user.avatar})`;
+  currentUser = user;
+}
 
 
 // экземпляр класса UserInfo для использования информации пользователя при смене данных
@@ -132,8 +147,9 @@ const editPopupElement = new PopupWithForm({
       .then((result) => {
         userData.setUserInfo(result);
         editSave.textContent = 'Сохранить';
+        editPopupElement.close();
       })
-      .finally(() => editPopupElement.close());
+      .catch(err => console.log(`Error ${err}`));
   },
 });
 
@@ -169,8 +185,9 @@ const avatarPopupElement = new PopupWithForm({
       .then((result) => {
         userData.setUserInfo(result);
         avatarSave.textContent = 'Сохранить';
+        avatarPopupElement.close();
       })
-      .finally(() => avatarPopupElement.close());
+      .catch(err => console.log(`Error ${err}`));
   },
 });
 
@@ -207,8 +224,9 @@ const confirmPopupElement = new PopupConfirm({
         item._element.remove();
         item._element = null;
         deleteButton.textContent = 'Да';
+        confirmPopupElement.close();
       })
-      .finally(() => confirmPopupElement.close());
+      .catch(err => console.log(`Error ${err}`));
   },
 });
 confirmPopupElement.setEventListeners();
@@ -219,6 +237,7 @@ function createCard(item, templateId) {
   const card = new Card(
     item,
     templateId,
+    currentUser._id,
     // функция открытия картинки в большом размере
     () => {
       imgPopup.open(item.name, item.link);
@@ -239,16 +258,18 @@ function createCard(item, templateId) {
         api.addLike(item._id)
           .then(() => {
             // в массив с лайками добавляю объект-пользователя,
-            // который запомнили в user при получении инфы о пользователе с сервера
-            item.likes.push(user);
+            // который запомнили в currentUser при получении инфы о пользователе с сервера
+            item.likes.push(currentUser);
             elementLikeAmount.textContent = item.likes.length;
           })
+
+          .catch(err => console.log(`Error ${err}`))
       } else {
         api.deleteLike(item._id)
           .then(() => {
             // проверка и удаление конкретно моего лайка (лайка пользователя)
             item.likes.forEach((user) => {
-              if (user._id == 'bbdbf9a9d7d77861a60fb2e7') {
+              if (user._id == currentUser._id) {
                 const userIndex = item.likes.indexOf(user);
                 if (userIndex !== -1) {
                   item.likes.splice(userIndex, 1);
@@ -257,35 +278,31 @@ function createCard(item, templateId) {
               }
             });
           })
+
+          .catch(err => console.log(`Error ${err}`));
       }
     }
   );
   return card;
 }
 
-
-// добавление всех карточек с сервера
-api.getInitialCards()
-  .then((result) => {
-    // экземпляр класса Section для добавления карточек
-    const cardList = new Section({
-        data: result,
-        renderer: (item) => {
-          // проверка, что с сервера приходит верный link
-          if (item.link.slice(0, 6) == 'https:') {
-            const card = createCard(item, templateId);
-            const cardElement = card.generateCard();
-            cardList.addItem(cardElement, true);
-          }
-        },
+// функция добавления всех карточек по информации, например с сервера
+function setupCards(cards) {
+  const cardList = new Section({
+      data: cards,
+      renderer: (item) => {
+        // проверка, что с сервера приходит верный link
+        if (item.link.slice(0, 6) == 'https:') {
+          const card = createCard(item, templateId);
+          const cardElement = card.generateCard();
+          cardList.addItem(cardElement, true);
+        }
       },
-      cardListSelector
-    );
-    cardList.renderItems();
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    },
+    cardListSelector
+  );
+  cardList.renderItems();
+}
 
 
 // экземпляр класса Section для добавления карточек, которые будет добавлять пользователь
@@ -307,8 +324,9 @@ const addPopupElement = new PopupWithForm({
         const cardElement = card.generateCard();
         addCardsList.addItem(cardElement, false);
         addSave.textContent = 'Сохранить';
+        addPopupElement.close();
       })
-      .finally(() => addPopupElement.close());
+      .catch(err => console.log(`Error ${err}`));
   },
 });
 
@@ -327,8 +345,3 @@ function openPopupAdd() {
   // открываю popup добавления карточки
   addPopupElement.open();
 }
-
-
-editButton.addEventListener('click', openPopupEdit);
-addButton.addEventListener('click', openPopupAdd);
-profileAvatar.addEventListener('click', openPopupAvatar);

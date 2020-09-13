@@ -19,8 +19,7 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch(err => console.log(`Error ${err}`));
+      });
   }
 
   addNewCard({
@@ -45,8 +44,7 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch(err => console.log(`Error ${err}`));
+      });
   }
 
   deleteCard(cardId) {
@@ -64,8 +62,7 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch(err => console.log(`Error ${err}`));
+      });
   }
 
   addLike(cardId) {
@@ -83,8 +80,7 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch(err => console.log(`Error ${err}`));
+      });
 
   }
 
@@ -103,8 +99,7 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch(err => console.log(`Error ${err}`));
+      });
   }
 
   getUserInfo() {
@@ -121,8 +116,7 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch(err => console.log(`Error ${err}`));
+      });
   }
 
   editProfile({
@@ -147,8 +141,7 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch(err => console.log(`Error ${err}`));
+      });
   }
 
   editAvatar({
@@ -171,7 +164,6 @@ export class Api {
 
         // если ошибка, отклоняем промис
         return Promise.reject(`Ошибка: ${res.status}`);
-      })
-      .catch(err => console.log(`Error ${err}`));
+      });
   }
 }
